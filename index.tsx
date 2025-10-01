@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { HistoryProvider } from './hooks/useHistory';
+import { ThemeProvider } from './hooks/useTheme';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -11,8 +12,10 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <HistoryProvider>
-      <App />
-    </HistoryProvider>
+    <ThemeProvider>
+      <HistoryProvider>
+        <App />
+      </HistoryProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

@@ -1,18 +1,20 @@
+
 import React, { useState, useMemo, useCallback } from 'react';
 import Header from './components/Header';
 import NicheTrendAnalysis from './components/features/NicheTrendAnalysis';
 import CompetitorAnalysis from './components/features/CompetitorAnalysis';
 import SalesCopyGenerator from './components/features/SalesCopyGenerator';
+import CompetitorDiscovery from './components/features/CompetitorDiscovery';
 import TabButton from './components/TabButton';
-import { NicheIcon, CompetitorIcon, CopyIcon } from './components/Icons';
-import { NicheTrendResult, CompetitorAnalysisResult, SalesCopyResult, GroundingChunk, HistoryItem } from './types';
-import { analyzeNicheTrend, analyzeCompetitor, generateSalesCopy } from './services/geminiService';
+import { NicheIcon, CompetitorIcon, CopyIcon, DiscoveryIcon } from './components/Icons';
+import { NicheTrendResult, CompetitorAnalysisResult, SalesCopyResult, GroundingChunk, HistoryItem, CompetitorDiscoveryResult } from './types';
+import { analyzeNicheTrend, analyzeCompetitor, generateSalesCopy, discoverCompetitors } from './services/geminiService';
 import Footer from './components/Footer';
 import { useHistory } from './hooks/useHistory';
 import HistoryPanel from './components/HistoryPanel';
 
 
-type Feature = 'niche' | 'competitor' | 'copy';
+type Feature = 'niche' | 'competitor' | 'copy' | 'discovery';
 
 const App: React.FC = () => {
   const [activeFeature, setActiveFeature] = useState<Feature>('niche');
@@ -26,6 +28,7 @@ const App: React.FC = () => {
 
   // State for Competitor Analysis
   const [competitorIdentifier, setCompetitorIdentifier] = useState('');
+  const [competitorFocusKeywords, setCompetitorFocusKeywords] = useState('');
   const [competitorIsLoading, setCompetitorIsLoading] = useState(false);
   const [competitorError, setCompetitorError] = useState<string | null>(null);
   const [competitorResult, setCompetitorResult] = useState<CompetitorAnalysisResult | null>(null);
@@ -36,6 +39,13 @@ const App: React.FC = () => {
   const [salesCopyIsLoading, setSalesCopyIsLoading] = useState(false);
   const [salesCopyError, setSalesCopyError] = useState<string | null>(null);
   const [salesCopyResult, setSalesCopyResult] = useState<SalesCopyResult | null>(null);
+
+  // State for Competitor Discovery
+  const [discoveryQuery, setDiscoveryQuery] = useState('');
+  const [discoveryIsLoading, setDiscoveryIsLoading] = useState(false);
+  const [discoveryError, setDiscoveryError] = useState<string | null>(null);
+  const [discoveryResult, setDiscoveryResult] = useState<CompetitorDiscoveryResult | null>(null);
+  const [discoverySources, setDiscoverySources] = useState<GroundingChunk[]>([]);
 
 
   const handleNicheSubmit = useCallback(async () => {
@@ -62,7 +72,8 @@ const App: React.FC = () => {
         addHistoryItem({ type: 'niche', query: trimmedKeywords, result: analysisResult });
     } catch (err) {
         console.error(err);
-        setNicheError("Gagal melakukan analisis. Silakan coba lagi nanti.");
+        const errorMessage = err instanceof Error ? err.message : "Gagal melakukan analisis. Silakan coba lagi nanti.";
+        setNicheError(errorMessage);
     } finally {
         setNicheIsLoading(false);
     }
@@ -81,19 +92,20 @@ const App: React.FC = () => {
         setCompetitorError("Format tidak valid. Masukkan URL (e.g., shopee.co.id/brand) atau handle sosial media (e.g., @brand).");
         return;
     }
+    if (competitorFocusKeywords.length > 150) {
+        setCompetitorError("Kata kunci fokus terlalu panjang, mohon ringkas dalam 150 karakter.");
+        return;
+    }
 
       setCompetitorIsLoading(true);
       setCompetitorError(null);
       setCompetitorResult(null);
       setCompetitorSources([]);
       try {
-          const { analysis, sources } = await analyzeCompetitor(trimmedIdentifier);
-          if (!analysis) {
-            throw new Error("AI tidak dapat memproses respons. Coba dengan input yang berbeda.");
-          }
+          const { analysis, sources } = await analyzeCompetitor(trimmedIdentifier, competitorFocusKeywords);
           setCompetitorResult(analysis);
           setCompetitorSources(sources);
-          addHistoryItem({ type: 'competitor', query: trimmedIdentifier, result: analysis, sources });
+          addHistoryItem({ type: 'competitor', query: trimmedIdentifier, focusKeywords: competitorFocusKeywords, result: analysis, sources });
       } catch (err) {
           console.error(err);
           const errorMessage = err instanceof Error ? err.message : "Gagal melakukan analisis. Silakan coba lagi nanti.";
@@ -101,7 +113,7 @@ const App: React.FC = () => {
       } finally {
           setCompetitorIsLoading(false);
       }
-  }, [competitorIdentifier, addHistoryItem]);
+  }, [competitorIdentifier, competitorFocusKeywords, addHistoryItem]);
 
   const handleSalesCopySubmit = useCallback(async () => {
     const trimmedQuestion = salesQuestion.trim();
@@ -127,16 +139,51 @@ const App: React.FC = () => {
           addHistoryItem({ type: 'copy', query: trimmedQuestion, result: copyResult });
       } catch (err) {
           console.error(err);
-          setSalesCopyError("Gagal menghasilkan copy. Silakan coba lagi nanti.");
+          const errorMessage = err instanceof Error ? err.message : "Gagal menghasilkan copy. Silakan coba lagi nanti.";
+          setSalesCopyError(errorMessage);
       } finally {
           setSalesCopyIsLoading(false);
       }
   }, [salesQuestion, addHistoryItem]);
   
+  const handleDiscoverySubmit = useCallback(async () => {
+    const trimmedQuery = discoveryQuery.trim();
+    if (!trimmedQuery) {
+        setDiscoveryError("Mohon masukkan produk, brand, atau layanan Anda.");
+        return;
+    }
+    if (trimmedQuery.length < 3) {
+        setDiscoveryError("Input terlalu pendek, mohon masukkan minimal 3 karakter.");
+        return;
+    }
+    if (trimmedQuery.length > 100) {
+        setDiscoveryError("Input terlalu panjang, mohon ringkas dalam 100 karakter.");
+        return;
+    }
+
+    setDiscoveryIsLoading(true);
+    setDiscoveryError(null);
+    setDiscoveryResult(null);
+    setDiscoverySources([]);
+    try {
+        const { analysis, sources } = await discoverCompetitors(trimmedQuery);
+        setDiscoveryResult(analysis);
+        setDiscoverySources(sources);
+        addHistoryItem({ type: 'discovery', query: trimmedQuery, result: analysis, sources });
+    } catch (err) {
+        console.error(err);
+        const errorMessage = err instanceof Error ? err.message : "Gagal menemukan kompetitor. Silakan coba lagi nanti.";
+        setDiscoveryError(errorMessage);
+    } finally {
+        setDiscoveryIsLoading(false);
+    }
+}, [discoveryQuery, addHistoryItem]);
+  
   const loadFromHistory = useCallback((item: HistoryItem) => {
     setNicheError(null);
     setCompetitorError(null);
     setSalesCopyError(null);
+    setDiscoveryError(null);
     
     setActiveFeature(item.type);
 
@@ -146,19 +193,34 @@ const App: React.FC = () => {
             setNicheResult(item.result as NicheTrendResult);
             setCompetitorResult(null);
             setSalesCopyResult(null);
+            setDiscoveryResult(null);
+            setCompetitorFocusKeywords('');
             break;
         case 'competitor':
             setCompetitorIdentifier(item.query);
+            setCompetitorFocusKeywords(item.focusKeywords || '');
             setCompetitorResult(item.result as CompetitorAnalysisResult);
             setCompetitorSources(item.sources || []);
             setNicheResult(null);
             setSalesCopyResult(null);
+            setDiscoveryResult(null);
             break;
         case 'copy':
             setSalesQuestion(item.query);
             setSalesCopyResult(item.result as SalesCopyResult);
             setNicheResult(null);
             setCompetitorResult(null);
+            setDiscoveryResult(null);
+            setCompetitorFocusKeywords('');
+            break;
+        case 'discovery':
+            setDiscoveryQuery(item.query);
+            setDiscoveryResult(item.result as CompetitorDiscoveryResult);
+            setDiscoverySources(item.sources || []);
+            setNicheResult(null);
+            setCompetitorResult(null);
+            setSalesCopyResult(null);
+            setCompetitorFocusKeywords('');
             break;
     }
   }, []);
@@ -166,22 +228,23 @@ const App: React.FC = () => {
 
   const features = useMemo(() => [
     { id: 'niche', label: 'Analisis Tren Niche', icon: <NicheIcon className="w-5 h-5 mr-2" /> },
+    { id: 'discovery', label: 'Temukan Kompetitor', icon: <DiscoveryIcon className="w-5 h-5 mr-2" /> },
     { id: 'competitor', label: 'Riset Kompetitor', icon: <CompetitorIcon className="w-5 h-5 mr-2" /> },
     { id: 'copy', label: 'Generator Copy Penjualan', icon: <CopyIcon className="w-5 h-5 mr-2" /> },
   ], []);
 
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans">
+    <div className="min-h-screen bg-slate-50 font-sans dark:bg-slate-900">
       <Header />
       <main className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 pb-32 sm:pb-36">
-        <div className="text-center mb-10">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-800 tracking-tight">AI Market Analyst for SMEs</h1>
-            <p className="mt-3 text-lg text-slate-500 max-w-2xl mx-auto">Instant, data-driven insights to fuel your business growth in Indonesia.</p>
+        <div className="text-center mb-8 sm:mb-10 animate-slide-fade-in">
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-100 dark:to-slate-400">AI Market Analyst for SMEs</h1>
+            <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto dark:text-slate-400">Instant, data-driven insights to fuel your business growth in Indonesia.</p>
         </div>
         
-        <div className="flex justify-center mb-8">
-          <div className="flex space-x-1 sm:space-x-2 bg-slate-100 p-1 rounded-full" role="tablist">
+        <div className="flex justify-center mb-6 sm:mb-8 animate-slide-fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="flex flex-wrap justify-center gap-1 sm:gap-2 bg-slate-100 p-2 sm:p-1 rounded-lg sm:rounded-full dark:bg-slate-800" role="tablist">
             {features.map((feature) => (
               <TabButton
                 key={feature.id}
@@ -189,15 +252,14 @@ const App: React.FC = () => {
                 onClick={() => setActiveFeature(feature.id as Feature)}
               >
                 {feature.icon}
-                <span className="hidden sm:inline">{feature.label}</span>
-                 <span className="sm:hidden">{feature.id.charAt(0).toUpperCase() + feature.id.slice(1)}</span>
+                <span>{feature.label}</span>
               </TabButton>
             ))}
           </div>
         </div>
 
-        <div>
-          <div className={activeFeature === 'niche' ? 'block' : 'hidden'}>
+        <div key={activeFeature} className="animate-slide-fade-in" style={{ animationDelay: '200ms' }}>
+          {activeFeature === 'niche' && (
             <NicheTrendAnalysis 
               keywords={nicheKeywords}
               setKeywords={setNicheKeywords}
@@ -206,19 +268,32 @@ const App: React.FC = () => {
               result={nicheResult}
               handleSubmit={handleNicheSubmit}
             />
-          </div>
-          <div className={activeFeature === 'competitor' ? 'block' : 'hidden'}>
+          )}
+          {activeFeature === 'discovery' && (
+              <CompetitorDiscovery
+                  query={discoveryQuery}
+                  setQuery={setDiscoveryQuery}
+                  isLoading={discoveryIsLoading}
+                  error={discoveryError}
+                  result={discoveryResult}
+                  sources={discoverySources}
+                  handleSubmit={handleDiscoverySubmit}
+              />
+          )}
+          {activeFeature === 'competitor' && (
             <CompetitorAnalysis 
               identifier={competitorIdentifier}
               setIdentifier={setCompetitorIdentifier}
+              focusKeywords={competitorFocusKeywords}
+              setFocusKeywords={setCompetitorFocusKeywords}
               isLoading={competitorIsLoading}
               error={competitorError}
               result={competitorResult}
               sources={competitorSources}
               handleSubmit={handleCompetitorSubmit}
             />
-          </div>
-          <div className={activeFeature === 'copy' ? 'block' : 'hidden'}>
+          )}
+          {activeFeature === 'copy' && (
             <SalesCopyGenerator
               question={salesQuestion}
               setQuestion={setSalesQuestion}
@@ -227,7 +302,7 @@ const App: React.FC = () => {
               result={salesCopyResult}
               handleSubmit={handleSalesCopySubmit}
             />
-          </div>
+          )}
         </div>
       </main>
       <HistoryPanel onLoadFromHistory={loadFromHistory} />

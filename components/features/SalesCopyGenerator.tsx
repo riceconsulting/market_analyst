@@ -1,3 +1,5 @@
+
+
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import type { SalesCopyResult } from '../../types';
 import Loader from '../Loader';
@@ -5,17 +7,17 @@ import ErrorMessage from '../ErrorMessage';
 import AnalysisCard from '../AnalysisCard';
 import PromptSuggestions from '../PromptSuggestions';
 import { RiskGauge } from '../DataViz';
-import { CopyIcon } from '../Icons';
+import { CopyIcon, SparkleIcon, ChartBarIcon, ShieldCheckIcon } from '../Icons';
 
 const SALES_COPY_SUGGESTIONS = [
-    "Bagaimana cara mengumumkan diskon besar tanpa terlihat murahan?",
-    "Buat klausa pengembalian barang yang adil untuk pelanggan dan bisnis.",
-    "Apa cara terbaik mengkomunikasikan keterlambatan pengiriman saat event 12.12?",
-    "Bagaimana cara menaikkan harga produk sebesar 15% tanpa kehilangan pelanggan?",
-    "Tulis pengumuman bahwa produk kami sekarang menggunakan bahan daur ulang.",
-    "Bagaimana cara merespon ulasan negatif bintang 1 secara profesional?",
-    "Buat copy untuk launching produk baru yang sangat ditunggu-tunggu.",
-    "Bagaimana cara menjelaskan perubahan formula produk kepada pelanggan setia?"
+    "Umumkan kenaikan harga karena kurs Dolar naik, tanpa kehilangan pelanggan.",
+    "Jelaskan bahwa produk kami 'shrinkflation' (ukuran lebih kecil, harga sama).",
+    "Buat copy permintaan maaf karena server down saat flash sale.",
+    "Tulis syarat & ketentuan untuk program giveaway di Instagram.",
+    "Komunikasikan keterlambatan pengiriman karena overload Lebaran.",
+    "Respon tuduhan di medsos bahwa produk kami tidak halal.",
+    "Buat FAQ tentang keamanan data pelanggan pasca kebocoran data.",
+    "Bagaimana cara mengklarifikasi rumor negatif dari kompetitor?"
 ];
 
 interface SalesCopyGeneratorProps {
@@ -77,25 +79,25 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
     }, [result]);
 
     return (
-        <div className="w-full animate-fade-in">
-            <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-                <h2 className="text-xl font-semibold text-slate-800 mb-1">Generator Klausa & Copy Penjualan</h2>
-                <p className="text-slate-600 mb-4">Ajukan pertanyaan bisnis untuk mendapatkan analisis risiko dan draft copy yang aman dan efektif.</p>
+        <div className="w-full">
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-lg dark:bg-slate-800 dark:border-slate-700">
+                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-1">Generator Klausa & Copy Penjualan</h2>
+                <p className="text-slate-600 dark:text-slate-400 mb-4">Ajukan pertanyaan bisnis untuk mendapatkan analisis risiko dan draft copy yang aman dan efektif.</p>
                 <form onSubmit={handleFormSubmit}>
                     <div className="flex flex-col gap-2">
                         <textarea
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent h-24 placeholder-gray-400 text-base"
+                            className="flex-grow w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !question.trim()}
-                            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 disabled:bg-slate-400 disabled:cursor-not-allowed transition"
+                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 disabled:from-slate-400 disabled:to-slate-400 disabled:cursor-not-allowed dark:disabled:from-slate-600 dark:disabled:to-slate-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30"
                         >
-                            {isLoading ? 'Menganalisis...' : 'Analisis & Buat Copy'}
+                            {isLoading ? 'Menganalisis...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Analisis & Buat Copy</>}
                         </button>
                     </div>
                 </form>
@@ -112,23 +114,23 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
                 {error && <ErrorMessage message={error} />}
                 {result && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <AnalysisCard title="Analisis Reaksi Pasar" icon={"📈"}>
+                        <AnalysisCard title="Analisis Reaksi Pasar" icon={<ChartBarIcon className="w-5 h-5" />}>
                            <p>{result.marketReactionAnalysis}</p>
                            <RiskGauge level={riskLevel} />
                         </AnalysisCard>
-                        <AnalysisCard title="Copy & Paste Ready" icon={"🛡️"}>
-                            <div className="relative p-4 border border-slate-200 rounded-md bg-slate-50 font-mono text-sm">
+                        <AnalysisCard title="Copy & Paste Ready" icon={<ShieldCheckIcon className="w-5 h-5" />} animationDelay="100ms">
+                            <div className="relative p-4 border border-slate-200 rounded-md bg-slate-50 font-mono text-sm dark:border-slate-600 dark:bg-slate-900/30">
                                 <button
                                     onClick={handleCopy}
-                                    className="absolute top-2 right-2 p-2 text-slate-500 bg-white rounded-md hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="absolute top-2 right-2 p-2 text-slate-500 bg-white rounded-md hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200"
                                     aria-label="Copy to clipboard"
                                 >
                                     <CopyIcon className="w-5 h-5" />
                                 </button>
-                                {isCopied && <span className="absolute top-2 right-12 bg-slate-800 text-white text-xs px-2 py-1 rounded">Copied!</span>}
+                                {isCopied && <span className="absolute top-2 right-12 bg-slate-800 text-white text-xs px-2 py-1 rounded dark:bg-slate-200 dark:text-slate-800">Copied!</span>}
 
-                                <h4 className="font-sans font-bold text-slate-800 text-lg mb-2">{result.riskMitigationCopy.title}</h4>
-                                <p className="whitespace-pre-wrap font-sans">{result.riskMitigationCopy.body}</p>
+                                <h4 className="font-sans font-bold text-slate-800 dark:text-slate-100 text-lg mb-2">{result.riskMitigationCopy.title}</h4>
+                                <p className="whitespace-pre-wrap font-sans dark:text-slate-300">{result.riskMitigationCopy.body}</p>
                             </div>
                         </AnalysisCard>
                     </div>

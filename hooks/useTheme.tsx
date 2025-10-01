@@ -4,7 +4,6 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 type Theme = 'light' | 'dark';
 
 // Define the shape of the context data.
-// We will provide the raw state and setter.
 interface ThemeContextProps {
   theme: Theme;
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
@@ -23,7 +22,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'dark' || storedTheme === 'light') {
-      return storedTheme;
+      return storedTheme as Theme;
     }
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
@@ -33,14 +32,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
-      // Add 'dark' class for TailwindCSS dark mode styling
       root.classList.add('dark');
     } else {
-      // Remove it for light mode
       root.classList.remove('dark');
     }
     
-    // Save the user's preference in localStorage
     try {
       localStorage.setItem('theme', theme);
     } catch (error) {
@@ -48,7 +44,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [theme]);
 
-  // Provide the theme and the setter function to children
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
@@ -65,8 +60,6 @@ export const useTheme = () => {
 
   const { theme, setTheme } = context;
 
-  // We create a convenient toggle function here so components don't
-  // need to implement the logic themselves.
   const toggleTheme = () => {
     setTheme(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
   };

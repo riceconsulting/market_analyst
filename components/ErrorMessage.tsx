@@ -8,7 +8,7 @@ interface ErrorMessageProps {
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ title = "Terjadi Kesalahan", message }) => {
     return (
-        <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4" role="alert">
+        <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 dark:bg-red-900/20 dark:border-red-500/30 dark:text-red-400 animate-pop-in" role="alert">
             <div className="flex">
                 <div className="flex-shrink-0">
                     <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -16,8 +16,8 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ title = "Terjadi Kesalahan"
                     </svg>
                 </div>
                 <div className="ml-3">
-                    <h3 className="text-sm font-medium">{title}</h3>
-                    <div className="mt-2 text-sm">
+                    <h3 className="text-sm font-medium text-red-800 dark:text-red-300">{title}</h3>
+                    <div className="mt-2 text-sm text-red-700 dark:text-red-400">
                         <p>{message}</p>
                     </div>
                 </div>

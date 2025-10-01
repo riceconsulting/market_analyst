@@ -1,8 +1,9 @@
 import React from 'react';
+import ThemeToggle from './ThemeToggle';
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-white/80 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-30 w-full">
+    <header className="bg-white/70 backdrop-blur-xl border-b border-slate-900/10 sticky top-0 z-30 w-full dark:bg-slate-900/70 dark:border-slate-50/[0.06] animate-slide-fade-in">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side: Logo and Branding */}
@@ -18,10 +19,10 @@ const Header: React.FC = () => {
               className="h-10 w-10 object-contain transition-transform group-hover:scale-105" 
             />
             <div className="flex flex-col leading-tight">
-                <h1 className="font-bold text-xl sm:text-2xl tracking-tight text-slate-800">
+                <h1 className="font-bold text-xl sm:text-2xl tracking-tight text-slate-800 dark:text-slate-100">
                     RICE AI
                 </h1>
-                <p className="font-sans text-xs sm:text-sm text-sky-700 tracking-wide opacity-90">
+                <p className="font-sans text-xs sm:text-sm text-sky-700 dark:text-sky-400 tracking-wide opacity-90">
                     Market Analyst
                 </p>
             </div>
@@ -29,7 +30,7 @@ const Header: React.FC = () => {
           
           {/* Right side: Action Icons */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <span className="text-xs font-semibold text-sky-800 bg-sky-100 px-3 py-1 rounded-full">Free Tool</span>
+            <ThemeToggle />
           </div>
         </div>
       </div>
