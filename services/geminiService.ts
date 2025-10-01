@@ -1,4 +1,7 @@
 
+
+
+
 import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
 import { NicheTrendResult, CompetitorAnalysisResult, SalesCopyResult, GroundingChunk, CompetitorDiscoveryResult } from '../types';
 
@@ -9,46 +12,48 @@ if (!process.env.API_KEY) {
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const model = 'gemini-2.5-flash';
 
-const parseJsonFromMarkdown = <T,>(markdownString: string): T => {
-    const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
-    const match = markdownString.match(jsonRegex);
-    if (match && match[1]) {
-        try {
-            const parsedData = JSON.parse(match[1]);
-            if (typeof parsedData !== 'object' || parsedData === null) {
-                throw new Error("Parsed JSON is not an object.");
-            }
-            return parsedData as T;
-        } catch (error) {
-            console.error("Failed to parse JSON from markdown:", error, "Raw content:", match[1]);
-            throw new Error("AI memberikan respons JSON yang tidak valid. Mohon coba lagi.");
-        }
+/**
+ * A robust JSON parser that attempts to parse the AI's response.
+ * It first tries to parse the whole text, then falls back to extracting from a markdown block.
+ * @param response The raw response from the AI model.
+ * @returns A parsed JSON object of type T.
+ * @throws An error with a user-friendly message if parsing fails.
+ */
+const processJsonResponse = <T,>(response: GenerateContentResponse): T => {
+    const rawText = response.text;
+    if (!rawText) {
+        throw new Error("AI tidak memberikan respons. Mohon coba lagi.");
     }
-    console.error("No JSON block found in markdown string:", markdownString);
-    throw new Error("AI tidak memberikan respons dalam format yang diharapkan. Mohon coba lagi.");
-}
 
-const generateIcon = async (prompt: string): Promise<string | undefined> => {
     try {
-        const fullPrompt = `A simple, clean, minimalist, flat 2D icon representing '${prompt}', suitable for a web app dashboard. White background, vector style, no text, no shadows.`;
-        const response = await ai.models.generateImages({
-            model: 'imagen-4.0-generate-001',
-            prompt: fullPrompt,
-            config: {
-                numberOfImages: 1,
-                outputMimeType: 'image/png',
-                aspectRatio: '1:1',
-            },
-        });
-
-        if (response.generatedImages && response.generatedImages.length > 0) {
-            const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
-            return `data:image/png;base64,${base64ImageBytes}`;
+        // First attempt: parse the entire string directly.
+        // This works if the model respects responseMimeType and returns only JSON.
+        const parsedData = JSON.parse(rawText);
+         if (typeof parsedData !== 'object' || parsedData === null) {
+            throw new Error("Parsed JSON is not an object.");
         }
-    } catch (error) {
-        console.error(`Failed to generate icon for prompt "${prompt}":`, error);
+        return parsedData as T;
+    } catch (e) {
+        // Second attempt: extract from a markdown code block.
+        // This is a fallback for when the model wraps the JSON in ```json ... ```.
+        const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
+        const match = rawText.match(jsonRegex);
+        if (match && match[1]) {
+            try {
+                const parsedData = JSON.parse(match[1]);
+                if (typeof parsedData !== 'object' || parsedData === null) {
+                    throw new Error("Parsed JSON from markdown is not an object.");
+                }
+                return parsedData as T;
+            } catch (error) {
+                console.error("Failed to parse JSON from markdown:", error, "Raw content:", match[1]);
+                throw new Error("AI memberikan respons JSON yang tidak valid. Ini bisa terjadi saat lalu lintas tinggi. Mohon coba lagi.");
+            }
+        }
     }
-    return undefined;
+    
+    console.error("No valid JSON found in AI response. Raw text:", rawText);
+    throw new Error("Gagal mem-parsing respons dari AI karena tidak mengandung format JSON yang valid. Mohon coba lagi.");
 };
 
 
@@ -110,109 +115,80 @@ export const analyzeNicheTrend = async (keywords: string): Promise<NicheTrendRes
     };
     
     const prompt = `
-PERAN: Anda adalah 'Chief Futurist' & Market Strategist untuk firma modal ventura yang berfokus pada UMKM di Indonesia. Klien Anda tidak butuh data mentah, mereka butuh 'alpha'—wawasan unik yang bisa dieksploitasi untuk keuntungan kompetitif. Tugas Anda adalah memberikan analisis yang tajam, prediktif, dan sangat relevan dengan konteks lokal.
+ROLE: Elite Market Futurist for an Indonesian VC firm. Your goal is to find 'alpha' for SMEs.
+TASK: Conduct a comprehensive market analysis for the user's input.
+USER INPUT: "${keywords}"
 
-INPUT PENGGUNA: "${keywords}"
+MISSION BRIEF:
+1.  **Dominant Vibe Analysis:**
+    *   Identify the core psychological feel (e.g., 'approachable luxury', 'nostalgic comfort').
+    *   Translate this into tangible visuals for the Indonesian market (colors, fonts, photo styles).
+    *   Example: For "coffee," don't just say "Minimalist." Say "Warm Minimalism using terracotta palettes and natural light to create a serene, 'slow-living' atmosphere."
 
-INSTRUKSI: Lakukan analisis pasar komprehensif untuk input pengguna. Ikuti rantai pemikiran (Chain-of-Thought) berikut dan hasilkan output HANYA dalam format JSON yang ditentukan.
+2.  **Hidden Niche Opportunity (Blue Ocean Hunting):**
+    *   Go beyond the obvious. Find an intersection of trends or an unmet derivative need.
+    *   Example: Input "skincare." Don't say "serum." A better answer: "Microbiome-friendly fermented rice water toners," explaining it combines the K-beauty trend with a demand for gentle, natural ingredients.
+    *   Clearly state WHY it's an opportunity (e.g., 'Leverages the 'clean beauty' wave while tapping into Indonesian heritage ingredients').
 
-PROSES BERPIKIR (CHAIN-OF-THOUGHT):
+3.  **Trend Lifecycle Analysis:**
+    *   Classify the trend's phase: 'Baru' (New), 'Berkembang' (Growing), 'Matang' (Mature), 'Menurun' (Declining).
+    *   Provide ONE single, highly strategic recommendation for that phase. Example for 'Growing' phase: "Dominate a sub-niche (e.g., vegan leather bags) before the main market saturates."
+    *   State your confidence level ('Tinggi', 'Sedang', 'Rendah') and justify it with a single data-driven reason. Example: "Confidence: Tinggi. Search volume for 'vegan leather' increased 150% YoY in Indonesia."
 
-1.  **Vibe & Estetika Dominan:**
-    *   Apa nuansa psikologis yang sedang dicari pasar? (mis., 'kenyamanan', 'nostalgia', 'kemewahan yang terjangkau').
-    *   Bagaimana nuansa ini diterjemahkan secara visual di media sosial Indonesia?
-    *   Identifikasi palet warna kunci, gaya font, dan mood fotografi. Jangan hanya sebutkan nama gaya (mis., 'Minimalis'), jelaskan esensinya (mis., 'Minimalisme Hangat dengan sentuhan material alami untuk menciptakan rasa tenang').
+4.  **Social Media Action Plan:**
+    *   Identify 3-5 high-impact, trending hashtags on Instagram/TikTok, avoiding generic ones.
+    *   Detail 2-3 popular content formats with concrete ideas. Example: "Format: 'ASMR Unboxing Reels.' Show the tactile experience of your product's packaging with high-quality sound to trigger a sensory response."
 
-2.  **Peluang Niche Tersembunyi (Blue Ocean Hunting):**
-    *   Lihat melampaui tren yang jelas. Apa persimpangan (intersection) dari dua tren yang ada? Apa kebutuhan turunan yang belum terpenuhi?
-    *   Contoh: Jika input "kopi", jangan sebut "cold brew". Pikirkan lebih dalam: "Kopi Drip Bag dengan Infusi Herbal Fungsional (mis., adaptogen seperti Ashwagandha untuk pereda stres)".
-    *   Jelaskan MENGAPA ini adalah peluang: 'Pasar kopi jenuh, tetapi pasar 'wellness' sedang naik daun. Menggabungkan keduanya menciptakan kategori baru dengan persaingan rendah.'
-
-3.  **Analisis Siklus Hidup & Validasi Data:**
-    *   Evaluasi fase tren dengan bukti. Gunakan data imajiner dari Google Trends, diskusi di forum (mis., Female Daily), dan adopsi oleh influencer/brand.
-    *   Klasifikasikan: 'Baru', 'Berkembang', 'Matang', 'Menurun'.
-    *   Berikan SATU rekomendasi strategis yang paling cerdas untuk fase tersebut. (Contoh: Fase 'Berkembang' -> 'Kolaborasi dengan 'micro-influencer' di niche terkait untuk membangun kredibilitas sebelum pasar jenuh').
-    *   Justifikasi tingkat keyakinan Anda dengan data. (Contoh: 'Keyakinan Tinggi karena volume pencarian naik 70% MoM dan 5 dari 10 kafe top di Jakarta sudah mulai bereksperimen').
-
-4.  **Taktik Media Sosial yang Efektif:**
-    *   Fokus pada Instagram & TikTok. Identifikasi 3-5 hashtag yang sedang digunakan oleh 'early adopters', bukan hanya hashtag generik.
-    *   Jelaskan 2-3 format konten yang bekerja. Berikan ide konkret. (Contoh: Format 'Reels Edukasi Cepat' -> 'Tunjukkan 3 cara membedakan kopi Arabika asli dalam 15 detik, posisikan brand sebagai ahli').
-
-HASILKAN OUTPUT HANYA DALAM FORMAT JSON SESUAI SKEMA.`;
+OUTPUT: Strictly adhere to the provided JSON schema. No extra text or explanations.`;
 
 
     const response = await ai.models.generateContent({
         model,
         contents: prompt,
         config: {
-            systemInstruction: "Anda adalah seorang analis tren pasar yang ahli dalam mengidentifikasi peluang untuk Usaha Mikro, Kecil, dan Menengah (UMKM) di Indonesia. Berikan jawaban dalam format JSON yang terstruktur dan actionable.",
+            systemInstruction: "You are an expert market trend analyst for Indonesian Small-Medium Enterprises (SMEs). Provide structured, actionable insights in the requested JSON format.",
             responseMimeType: "application/json",
             responseSchema,
         }
     });
     
-    let result: NicheTrendResult;
-    try {
-        result = JSON.parse(response.text) as NicheTrendResult;
-    } catch (error) {
-        console.error("Gagal mem-parsing JSON dari AI untuk NicheTrend:", response.text, error);
-        throw new Error("AI memberikan respons JSON yang tidak valid. Mohon coba lagi.");
-    }
-
-    if (typeof result !== 'object' || result === null) {
-        console.error("Respons AI untuk NicheTrend bukan objek yang valid:", result);
-        throw new Error("AI tidak memberikan respons dalam format yang diharapkan.");
-    }
-
-    if (result.hiddenNiche?.trend) {
-        try {
-            const iconUrl = await generateIcon(result.hiddenNiche.trend);
-            if (iconUrl) {
-                result.hiddenNiche.iconUrl = iconUrl;
-            }
-        } catch (error) {
-            console.error("Icon generation for niche trend failed, proceeding without it.", error);
-        }
-    }
-
-    return result;
+    return processJsonResponse<NicheTrendResult>(response);
 };
 
 export const discoverCompetitors = async (productInfo: string): Promise<{ analysis: CompetitorDiscoveryResult, sources: GroundingChunk[] }> => {
     const prompt = `
-PERAN: Anda adalah seorang 'Corporate Investigator' yang disewa untuk memetakan lanskap kompetitif secara diam-diam dan akurat di pasar Indonesia.
-TUGAS: Identifikasi kompetitor utama untuk produk, brand, atau layanan berikut: "${productInfo}".
-SUMBER DATA: Gunakan Google Search secara ekstensif. Manfaatkan operator pencarian lanjutan (mis., \`site:tokopedia.com\`, \`intext:"brand lokal"\`, \`"saingan dari X"\`) untuk menemukan permata tersembunyi.
+ROLE: Corporate Investigator specializing in the Indonesian competitive landscape.
+TASK: Identify direct and indirect competitors for: "${productInfo}".
+DATA SOURCE: Use Google Search. Prioritize Indonesian e-commerce sites (Tokopedia, Shopee), social media (Instagram), and local brand websites.
 
-INSTRUKSI:
-1.  **Pencarian Mendalam & Filter:**
-    *   Lakukan pencarian untuk menemukan entitas bisnis yang relevan di Indonesia.
-    *   **FILTER PENTING:** Abaikan artikel listicle generik ('10 brand terbaik...'), halaman agregator, atau marketplace. Fokus pada brand, toko, atau layanan spesifik.
-2.  **Kategorikan dengan Cermat:**
-    *   **Kompetitor Langsung:** Menawarkan solusi yang hampir identik untuk masalah pelanggan yang sama.
-    *   **Kompetitor Tidak Langsung:** Menyelesaikan masalah inti yang sama, tetapi dengan cara atau produk yang berbeda.
-3.  **Prioritaskan & Beri Alasan Tajam:**
-    *   Identifikasi hingga 5 kompetitor langsung dan 5 tidak langsung. Sertakan campuran pemain besar dan penantang baru yang inovatif.
-    *   Untuk setiap kompetitor, berikan alasan strategis yang menjawab pertanyaan: "Mengapa pelanggan target akan memilih mereka daripada yang lain?" Hindari deskripsi produk, fokus pada keunggulan kompetitif mereka.
+MISSION BRIEF:
+1.  **Deep Search & Filtering:**
+    *   Find specific businesses in Indonesia.
+    *   **CRITICAL FILTER:** Ignore generic listicles ('10 best...'), aggregators, and pure marketplaces. Focus on actual brands or service providers.
+2.  **Categorize Competitors:**
+    *   **Direct Competitors:** Offer a near-identical solution to the same customer problem.
+    *   **Indirect Competitors:** Solve the same core problem but with a different product, service, or approach.
+3.  **Analyze & Justify:**
+    *   Identify up to 5 direct and 5 indirect competitors. Include a mix of established players and innovative newcomers.
+    *   For each, provide a concise, strategic "reason." This must answer: "Why would a customer choose them over others?" Focus on their unique selling proposition, not just what they sell.
 
-FORMAT OUTPUT:
-Hasilnya HARUS berupa JSON valid di dalam blok kode markdown. Jangan tambahkan teks atau penjelasan lain di luar blok JSON.
+OUTPUT FORMAT: A single, valid JSON object inside a markdown block. No text outside the JSON block.
 
-Struktur JSON:
+JSON Structure:
 \`\`\`json
 {
   "directCompetitors": [
     {
-      "name": "Nama Kompetitor Langsung",
-      "type": "Jenis (mis. Brand E-commerce, Toko Instagram, Restoran Fisik)",
-      "reason": "Alasan singkat yang menjelaskan keunggulan kompetitif mereka (mis., 'Menguasai pasar harga terjangkau dengan distribusi massal')."
+      "name": "Direct Competitor Name",
+      "type": "Type (e.g., E-commerce Brand, Instagram Store, Physical Restaurant)",
+      "reason": "Concise reason explaining their competitive edge (e.g., 'Dominates the budget-conscious segment with aggressive pricing and promotions')."
     }
   ],
   "indirectCompetitors": [
     {
-      "name": "Nama Kompetitor Tidak Langsung",
-      "type": "Jenis",
-      "reason": "Alasan singkat mengapa mereka memecahkan masalah yang sama secara berbeda (mis., 'Menawarkan solusi DIY yang lebih murah daripada layanan jadi')."
+      "name": "Indirect Competitor Name",
+      "type": "Type",
+      "reason": "Concise reason for how they solve the same problem differently (e.g., 'Offers a cheaper DIY alternative to a full-service solution')."
     }
   ]
 }
@@ -227,36 +203,8 @@ Struktur JSON:
         }
     });
 
-    const analysis = parseJsonFromMarkdown<CompetitorDiscoveryResult>(response.text);
+    const analysis = processJsonResponse<CompetitorDiscoveryResult>(response);
     const sources = (response.candidates?.[0]?.groundingMetadata?.groundingChunks as GroundingChunk[]) || [];
-
-    if (analysis) {
-        try {
-            const allCompetitors = [...(analysis.directCompetitors || []), ...(analysis.indirectCompetitors || [])];
-            const uniqueTypes = [...new Set(allCompetitors.map(c => c.type))];
-            const iconCache = new Map<string, string>();
-
-            for (const type of uniqueTypes) {
-                const iconUrl = await generateIcon(type);
-                if (iconUrl) {
-                    iconCache.set(type, iconUrl);
-                }
-            }
-
-            analysis.directCompetitors?.forEach(c => {
-                if (iconCache.has(c.type)) {
-                    c.iconUrl = iconCache.get(c.type);
-                }
-            });
-            analysis.indirectCompetitors?.forEach(c => {
-                 if (iconCache.has(c.type)) {
-                    c.iconUrl = iconCache.get(c.type);
-                }
-            });
-        } catch (error) {
-             console.error("Icon generation for competitors failed, proceeding without them.", error);
-        }
-    }
 
     return { analysis, sources };
 };
@@ -265,56 +213,57 @@ Struktur JSON:
 export const analyzeCompetitor = async (competitorIdentifier: string, focusKeywords?: string): Promise<{ analysis: CompetitorAnalysisResult, sources: GroundingChunk[] }> => {
     
     const focusPrompt = focusKeywords
-        ? `PERHATIAN KHUSUS: Pengguna meminta fokus pada: "${focusKeywords}". Jadikan ini sebagai lensa utama untuk semua analisis Anda. Setiap poin harus merefleksikan bagaimana kompetitor menangani aspek ini.`
+        ? `SPECIAL FOCUS: The user is particularly interested in "${focusKeywords}". Every analysis point must be viewed through this lens.`
         : '';
     
     const prompt = `
-PERAN: Anda adalah seorang 'Competitive Intelligence Operator' elit. Misi Anda adalah membongkar strategi kompetitor hingga ke akarnya dan menemukan celah kelemahan yang bisa dieksploitasi. Anda berpikir seperti seorang grandmaster catur, tiga langkah di depan.
-TUGAS: Lakukan analisis 360 derajat yang mendalam dan dapat ditindaklanjuti terhadap kompetitor: "${competitorIdentifier}".
-SUMBER DATA: Gunakan Google Search secara ekstensif untuk data real-time: halaman produk, media sosial, ulasan pelanggan, artikel berita, dan diskusi forum di Indonesia.
+ROLE: Elite Competitive Intelligence Operator. Your mission is to dissect a competitor's strategy and identify exploitable gaps.
+TARGET: "${competitorIdentifier}".
+DATA SOURCE: Use Google Search to find real-time data from Indonesian product pages, social media, customer reviews, and forums.
 ${focusPrompt}
 
-INSTRUKSI ANALISIS (Ikuti semua langkah secara cermat):
+MISSION BRIEF (Execute all steps):
 
-1.  **Analisis Deskripsi Produk (Linguistik & Psikologi):**
-    *   **Kekuatan SEO:** Identifikasi 3-5 kata kunci utama.
-    *   **Daya Tarik Emosional:** Apa 'hook' emosional utama? Identifikasi pemicu psikologis yang mereka gunakan (mis., FOMO, aspirasi, keamanan, bukti sosial).
+1.  **Product Description Analysis:**
+    *   **SEO Strength:** Identify 3-5 primary keywords they rank for.
+    *   **Emotional Appeal:** What is the core emotional trigger they pull? (e.g., Aspiration, Security, FOMO).
 
-2.  **Strategi Harga & Proposisi Nilai:**
-    *   **Posisi Harga:** Tentukan posisi harga (premium, menengah, terjangkau). Berikan rentang harga numerik [min, max] jika memungkinkan, jika tidak, kembalikan 'null'.
-    *   **Proposisi Nilai:** Apa pembenaran mereka untuk harga tersebut? Apa yang pelanggan 'benar-benar' beli? (mis., bukan kopi, tapi 'status sosial').
+2.  **Pricing & Value Proposition:**
+    *   **Price Point Analysis:** Define their market position (e.g., Premium, Mid-Range, Budget-Friendly).
+    *   **Value Proposition:** What are customers *really* buying? (e.g., Not just coffee, but a 'social status symbol').
+    *   **Price Range:** Provide a numeric [min, max] price range if possible. If not, return null.
 
-3.  **Sentimen Pelanggan (Intel dari Lapangan):**
-    *   Sintesis ulasan dari berbagai platform.
-    *   **Pujian Utama:** Ekstrak 3 pujian. Ubah ini menjadi "Marketing Angle Amplifier" - bagaimana pengguna bisa meniru atau melampaui ini?
-    *   **Keluhan Utama:** Ekstrak 3 keluhan. Ubah ini menjadi "Product Improvement Roadmap" - peluang perbaikan produk/layanan yang jelas.
+3.  **Customer Sentiment Analysis (Field Intel):**
+    *   Synthesize reviews from multiple platforms.
+    *   **Top Praise (3 points):** Frame these as "Marketing Angles to Amplify." How can the user replicate or improve upon this?
+    *   **Top Complaints (3 points):** Frame these as a "Product Improvement Roadmap." What are the clear opportunities?
 
-4.  **Bukti Sosial (Mesin Kepercayaan):**
-    *   **Testimoni:** Kutip 1-2 testimoni paling kuat yang menyoroti manfaat inti.
-    *   **Peringkat:** Format: "4.8/5 dari 1.200 ulasan".
-    *   **Konten Buatan Pengguna (UGC):** Deskripsikan strategi UGC mereka. Apakah pasif atau aktif didorong?
+4.  **Social Proof Scan:**
+    *   **Testimonials:** Quote 1-2 powerful testimonials highlighting a core benefit.
+    *   **Star Rating:** Format as "4.8/5 (1,234 reviews)".
+    *   **UGC Strategy:** Describe their User-Generated Content strategy (e.g., "Actively encourages UGC through contests and by featuring customer photos prominently.").
 
-5.  **Kata Kunci Relevan:**
-    *   Daftar 5-7 kata kunci paling penting (produk, brand, masalah yang dipecahkan).
+5.  **Relevant Keywords:** List 5-7 top keywords (product, brand, problem solved).
 
-6.  **Analisis SWOT (Sudut Pandang Penyerang):**
-    *   Analisis SWOT harus dari sudut pandang PENGGUNA (UMKM yang ingin bersaing), bukan dari sudut pandang kompetitor itu sendiri. Contoh 'Weakness': 'Ketergantungan tinggi pada satu influencer, berisiko jika kontrak berakhir'.
+6.  **SWOT Analysis (Attacker's Perspective):**
+    *   This SWOT must be from the perspective of a user wanting to compete.
+    *   Weakness Example: "Over-reliance on a single influencer creates a vulnerability if the contract ends."
+    *   Opportunity Example: "They have a strong product but weak community engagement; an opportunity exists to build a loyal customer community."
 
-7.  **Analisis Visual Branding (Bahasa Tanpa Kata):**
-    *   **Identitas Brand:** Deskripsikan kepribadian brand dalam 3-5 kata (mis., 'Berani, Modern, Inklusif').
-    *   **Palet Warna:** Identifikasi 3-5 warna dominan (berikan kode hex).
-    *   **Kesesuaian Visual:** Evaluasi seberapa efektif visual mereka berkomunikasi dengan target pasar.
+7.  **Visual Branding Analysis:**
+    *   **Brand Identity:** Describe the brand's personality in 3-5 words (e.g., 'Bold, Modern, Inclusive').
+    *   **Color Palette:** List 3-5 dominant hex codes.
+    *   **Visual Alignment:** Does their visual style effectively resonate with their target audience?
 
-8.  **Benchmarking Harga:**
-    *   Temukan 2-3 kompetitor lain di niche yang sama. Untuk setiap benchmark: nama, analisis posisi harga, proposisi nilai, dan rentang harga [min, max].
+8.  **Pricing Benchmark:** Find 2-3 other competitors in the niche. For each, provide name, price analysis, value proposition, and price range [min, max].
 
-9.  **Saran Diferensiasi ('Silver Bullet'):**
-    *   Berdasarkan semua analisis, berikan SATU saran diferensiasi yang paling cerdas, berdampak tinggi, dan sulit ditiru. Hindari saran generik. Contoh: "Jika kompetitor unggul di produk tapi lemah di komunitas, luncurkan 'Program Ambassador' eksklusif dengan akses langsung ke pendiri."
+9.  **Differentiation Suggestion (The "Silver Bullet"):**
+    *   Based on all analysis, provide ONE highly specific, actionable, and hard-to-copy differentiation strategy.
+    *   Avoid generic advice. Good Example: "Competitor wins on product, but is weak on education. Launch a certified 'masterclass' series to become the go-to expert in the niche."
 
-FORMAT OUTPUT:
-Hasilnya HARUS berupa JSON valid di dalam blok kode markdown. Jangan tambahkan teks atau penjelasan lain di luar blok JSON.
+OUTPUT FORMAT: A single, valid JSON object inside a markdown block. No text outside the JSON block.
 
-Struktur JSON:
+JSON Structure:
 \`\`\`json
 {
   "productDescriptionAnalysis": { "seoStrength": "...", "emotionalAppeal": "..." },
@@ -338,7 +287,7 @@ Struktur JSON:
         }
     });
 
-    const analysis = parseJsonFromMarkdown<CompetitorAnalysisResult>(response.text);
+    const analysis = processJsonResponse<CompetitorAnalysisResult>(response);
     const sources = (response.candidates?.[0]?.groundingMetadata?.groundingChunks as GroundingChunk[]) || [];
 
     return { analysis, sources };
@@ -351,13 +300,13 @@ export const generateSalesCopy = async (businessQuestion: string): Promise<Sales
         properties: {
             marketReactionAnalysis: { 
                 type: Type.STRING,
-                description: "Analisis proyeksi reaksi pasar terhadap pertanyaan/skenario bisnis yang diajukan, berdasarkan data sejenis di pasar Indonesia."
+                description: "Analysis of the projected market reaction to the business scenario in Indonesia, identifying key risks and customer emotions."
             },
             riskMitigationCopy: {
                 type: Type.OBJECT,
                 properties: {
-                    title: { type: Type.STRING, description: "Judul atau headline untuk copy yang dihasilkan." },
-                    body: { type: Type.STRING, description: "Isi draft klausa atau copy penjualan yang lugas, mengurangi ambiguitas, dan aman secara hukum dalam konteks Indonesia." }
+                    title: { type: Type.STRING, description: "A clear, non-clickbait headline for the announcement." },
+                    body: { type: Type.STRING, description: "The full sales/announcement copy, written in empathetic and professional Indonesian." }
                 },
                 required: ["title", "body"]
             }
@@ -366,51 +315,34 @@ export const generateSalesCopy = async (businessQuestion: string): Promise<Sales
     };
 
     const prompt = `
-PERAN: Anda adalah gabungan dari seorang 'PR Crisis Manager' berpengalaman, seorang 'Corporate Lawyer' yang teliti, dan seorang 'Direct-Response Copywriter' yang empatetik, khusus untuk pasar UMKM di Indonesia.
-SKENARIO PENGGUNA: "${businessQuestion}"
+ROLE: A hybrid PR Crisis Manager, Corporate Lawyer, and empathetic Direct-Response Copywriter for Indonesian SMEs.
+USER SCENARIO: "${businessQuestion}"
+TASK: Analyze the market risk of this scenario and draft a powerful, trust-building copy to mitigate it.
 
-TUGAS: Berdasarkan skenario, berikan analisis risiko pasar dan buat draf copy mitigasi yang kuat. Tujuannya adalah untuk mengubah potensi krisis menjadi momen pembangunan kepercayaan.
+CHAIN-OF-THOUGHT:
+1.  **Market Reaction & Risk Analysis:**
+    *   What is the worst-case narrative that could go viral on Indonesian social media (TikTok, Twitter)?
+    *   Predict the primary audience emotion (e.g., anger, disappointment, confusion, skepticism).
+    *   Synthesize this into a concise analysis, explaining the core communication challenge.
 
-LANGKAH-LANGKAH (CHAIN-OF-THOUGHT):
-1.  **Analisis Reaksi Pasar & Risiko:**
-    *   Identifikasi 'Worst-Case Scenario'. Apa narasi negatif yang paling mungkin viral di media sosial Indonesia (TikTok, Twitter, grup Facebook)?
-    *   Berikan 'Risk Score' (Rendah, Sedang, Tinggi) dengan justifikasi.
-    *   Prediksikan sentimen audiens (mis., marah, kecewa, bingung, skeptis).
-    *   Jelaskan mengapa pendekatan 'Radical Honesty' (kejujuran radikal) adalah strategi terbaik untuk skenario ini.
+2.  **Risk Mitigation Copy Generation:**
+    *   Use the "Acknowledge, Explain, Reassure" framework.
+    *   **Acknowledge:** Start by directly and honestly acknowledging the customer's feeling or the problem. No excuses. (e.g., "Kami mengerti Anda kecewa dengan kenaikan harga ini.")
+    *   **Explain:** Transparently explain the 'why' behind the situation. Use simple language and relatable analogies. Avoid corporate jargon. (e.g., "Sama seperti biaya bahan baku untuk membuat kue naik, biaya 'bahan baku' server kami juga naik.")
+    *   **Reassure:** State your commitment to the customer moving forward. What are you doing to address the issue? What can they expect? This builds trust.
+    *   The tone must be human, empathetic, and professional, using appropriate Indonesian language ('bahasa yang santun dan jelas').
 
-2.  **Pembuatan Copy Mitigasi Risiko (Struktur A.S.T.O.):**
-    *   Tulis copy menggunakan struktur A.S.T.O:
-        *   **Acknowledge (Akui):** Mulai dengan mengakui masalah atau perasaan pelanggan secara langsung dan jujur. Tanpa alasan. Contoh: "Kami tahu Anda kecewa dengan kenaikan harga ini. Kami mendengarnya."
-        *   **Solution & Story (Solusi & Cerita):** Jelaskan solusi atau langkah perbaikan yang diambil. Berikan konteks 'mengapa' di balik keputusan ini dengan cerita yang transparan. Hindari jargon korporat. Gunakan analogi yang mudah dipahami.
-        *   **Transparency (Transparansi):** Jelaskan detail yang relevan. Jika menaikkan harga, tunjukkan kenaikan biaya bahan baku. Jika ada keterlambatan, tunjukkan foto gudang yang overload.
-        *   **Outlook (Pandangan ke Depan):** Nyatakan komitmen Anda ke depan dan apa yang bisa diharapkan pelanggan. Berikan jaminan.
-    *   Tulis judul (headline) yang jelas, bukan clickbait.
-    *   Tulis isi (body) dengan gaya bahasa yang manusiawi, empatetik, dan lugas.
-
-HASILKAN OUTPUT HANYA DALAM FORMAT JSON SESUAI SKEMA.`;
+OUTPUT: Strictly adhere to the provided JSON schema. No extra text.`;
 
     const response = await ai.models.generateContent({
         model,
         contents: prompt,
         config: {
-            systemInstruction: "Anda adalah konsultan bisnis dan copywriter ahli yang berfokus pada mitigasi risiko untuk UMKM di Indonesia. Berikan jawaban dalam format JSON yang terstruktur, empatetik, dan profesional.",
+            systemInstruction: "You are a business consultant and expert copywriter specializing in risk mitigation for Indonesian SMEs. Respond in structured, professional, and empathetic JSON.",
             responseMimeType: "application/json",
             responseSchema,
         }
     });
 
-    let result: SalesCopyResult;
-    try {
-        result = JSON.parse(response.text) as SalesCopyResult;
-    } catch (error) {
-        console.error("Gagal mem-parsing JSON dari AI untuk SalesCopy:", response.text, error);
-        throw new Error("AI memberikan respons JSON yang tidak valid. Mohon coba lagi.");
-    }
-
-    if (typeof result !== 'object' || result === null) {
-        console.error("Respons AI untuk SalesCopy bukan objek yang valid:", result);
-        throw new Error("AI tidak memberikan respons dalam format yang diharapkan.");
-    }
-    
-    return result;
+    return processJsonResponse<SalesCopyResult>(response);
 };

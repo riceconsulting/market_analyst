@@ -6,10 +6,10 @@ import { NicheIcon, CompetitorIcon, CopyIcon, HistoryIcon, TrashIcon, DiscoveryI
 
 const getIconForType = (type: HistoryItem['type']) => {
     switch(type) {
-        case 'niche': return <NicheIcon className="w-4 h-4 text-sky-600 dark:text-sky-400" />;
-        case 'competitor': return <CompetitorIcon className="w-4 h-4 text-sky-600 dark:text-sky-400" />;
-        case 'copy': return <CopyIcon className="w-4 h-4 text-sky-600 dark:text-sky-400" />;
-        case 'discovery': return <DiscoveryIcon className="w-4 h-4 text-sky-600 dark:text-sky-400" />;
+        case 'niche': return <NicheIcon className="w-4 h-4 text-brand dark:text-brand-light" />;
+        case 'competitor': return <CompetitorIcon className="w-4 h-4 text-brand dark:text-brand-light" />;
+        case 'copy': return <CopyIcon className="w-4 h-4 text-brand dark:text-brand-light" />;
+        case 'discovery': return <DiscoveryIcon className="w-4 h-4 text-brand dark:text-brand-light" />;
         default: return null;
     }
 }
@@ -20,7 +20,7 @@ const HistoryItemCard: React.FC<{ item: HistoryItem; onLoad: (item: HistoryItem)
     return (
         <button 
             onClick={() => onLoad(item)}
-            className="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-sky-50 border border-slate-200 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:bg-slate-700/50 dark:hover:bg-sky-900/20 dark:border-slate-700"
+            className="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-brand/10 border border-slate-200 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:bg-slate-700/50 dark:hover:bg-brand/20 dark:border-slate-700"
             style={style}
         >
             <div className="flex justify-between items-start">
@@ -54,7 +54,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onLoadFromHistory }) => {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-24 sm:bottom-6 right-6 z-40 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-sky-600 text-white shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:focus:ring-offset-gray-900 flex items-center justify-center transition-transform transform hover:scale-110"
+                className="fixed bottom-24 sm:bottom-6 right-6 z-40 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand text-white shadow-lg hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand dark:focus:ring-offset-gray-900 flex items-center justify-center transition-transform transform hover:scale-110"
                 aria-label="Toggle analysis history"
             >
                 <HistoryIcon className="w-7 h-7 sm:w-8 sm:h-8" />
@@ -72,7 +72,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onLoadFromHistory }) => {
                 <div className="flex flex-col h-full">
                     <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
                         <h2 id="history-panel-title" className="text-lg font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                            <HistoryIcon className="w-6 h-6 text-sky-700 dark:text-sky-400" />
+                            <HistoryIcon className="w-6 h-6 text-brand-text dark:text-brand-light" />
                             Analysis History
                         </h2>
                         <button onClick={() => setIsOpen(false)} className="p-1 rounded-full text-2xl leading-none hover:bg-slate-100 text-slate-500 dark:hover:bg-slate-700 dark:text-slate-400" aria-label="Close history panel"><span aria-hidden="true">&times;</span></button>

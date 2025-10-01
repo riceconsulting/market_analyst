@@ -1,5 +1,6 @@
 
 
+
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import type { SalesCopyResult } from '../../types';
 import Loader from '../Loader';
@@ -89,13 +90,13 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="flex-grow w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !question.trim()}
-                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 disabled:from-slate-400 disabled:to-slate-400 disabled:cursor-not-allowed dark:disabled:from-slate-600 dark:disabled:to-slate-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30"
+                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-slate-400 disabled:cursor-not-allowed dark:disabled:bg-slate-600 transition-all duration-300 transform hover:scale-105"
                         >
                             {isLoading ? 'Menganalisis...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Analisis & Buat Copy</>}
                         </button>
@@ -122,7 +123,7 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
                             <div className="relative p-4 border border-slate-200 rounded-md bg-slate-50 font-mono text-sm dark:border-slate-600 dark:bg-slate-900/30">
                                 <button
                                     onClick={handleCopy}
-                                    className="absolute top-2 right-2 p-2 text-slate-500 bg-white rounded-md hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+                                    className="absolute top-2 right-2 p-2 text-slate-500 bg-white rounded-md hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200"
                                     aria-label="Copy to clipboard"
                                 >
                                     <CopyIcon className="w-5 h-5" />

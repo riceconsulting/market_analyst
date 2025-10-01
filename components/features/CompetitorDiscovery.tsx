@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useCallback, useState, useEffect } from 'react';
 import type { CompetitorDiscoveryResult, GroundingChunk, Competitor } from '../../types';
 import Loader from '../Loader';
@@ -30,19 +32,8 @@ interface CompetitorDiscoveryProps {
 }
 
 const CompetitorCard: React.FC<{ competitor: Competitor }> = ({ competitor }) => (
-    <div className="p-4 border border-slate-200 rounded-lg bg-slate-50 dark:bg-slate-700/50 dark:border-slate-700 flex items-start gap-4">
-        {competitor.iconUrl ? (
-            <img 
-                src={competitor.iconUrl} 
-                alt={`${competitor.type} icon`}
-                className="w-12 h-12 rounded-md object-cover bg-slate-200 dark:bg-slate-700 flex-shrink-0"
-            />
-        ) : (
-            <div className="w-12 h-12 rounded-md bg-slate-200 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center" aria-label="Icon placeholder">
-                <span className="text-xl text-slate-400 dark:text-slate-500">?</span>
-            </div>
-        )}
-        <div className="flex-1">
+    <div className="p-4 border border-slate-200 rounded-lg bg-slate-50 dark:bg-slate-700/50 dark:border-slate-700">
+        <div>
             <h4 className="font-bold text-slate-800 dark:text-slate-100">{competitor.name}</h4>
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{competitor.type}</p>
             <p className="text-sm text-slate-600 dark:text-slate-300">{competitor.reason}</p>
@@ -86,13 +77,13 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full min-w-0 px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="flex-grow w-full min-w-0 px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !query.trim()}
-                            className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 disabled:from-slate-400 disabled:to-slate-400 disabled:cursor-not-allowed dark:disabled:from-slate-600 dark:disabled:to-slate-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30"
+                            className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-slate-400 disabled:cursor-not-allowed dark:disabled:bg-slate-600 transition-all duration-300 transform hover:scale-105"
                         >
                             {isLoading ? 'Mencari...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Cari Kompetitor</>}
                         </button>
@@ -136,7 +127,7 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                                 <ul className="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-400">
                                     {sources.map((source, index) => (
                                         <li key={index}>
-                                            <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 hover:underline dark:text-sky-400 dark:hover:text-sky-300">
+                                            <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-brand hover:text-brand-dark hover:underline dark:text-brand-light dark:hover:text-brand">
                                                 {source.web.title || source.web.uri}
                                             </a>
                                         </li>

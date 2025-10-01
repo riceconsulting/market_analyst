@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useCallback, useState, useEffect } from 'react';
 import type { NicheTrendResult } from '../../types';
 import ErrorMessage from '../ErrorMessage';
@@ -56,12 +58,9 @@ const NicheSkeleton: React.FC = () => {
                         <div className="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-full relative overflow-hidden shimmer"></div>
                         <SkeletonBar width="w-1/2" />
                     </div>
-                    <div className="flex items-start gap-4">
-                         <div className="w-16 h-16 rounded-lg bg-slate-200 dark:bg-slate-700 flex-shrink-0 relative overflow-hidden shimmer"></div>
-                         <div className="flex-1 space-y-3">
-                             <SkeletonBar width="w-3/4" height="h-6" />
-                             <SkeletonBar />
-                         </div>
+                    <div className="space-y-3 mt-4">
+                        <SkeletonBar width="w-3/4" height="h-6" />
+                        <SkeletonBar />
                     </div>
                 </SkeletonCard>
                  <SkeletonCard>
@@ -168,13 +167,13 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                             value={keywords}
                             onChange={(e) => setKeywords(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full min-w-0 px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="flex-grow w-full min-w-0 px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !keywords.trim()}
-                            className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 disabled:from-slate-400 disabled:to-slate-400 disabled:cursor-not-allowed dark:disabled:from-slate-600 dark:disabled:to-slate-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30"
+                            className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-slate-400 disabled:cursor-not-allowed dark:disabled:bg-slate-600 transition-all duration-300 transform hover:scale-105"
                         >
                             {isLoading ? 'Menganalisis...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Analisis Sekarang</>}
                         </button>
@@ -208,18 +207,9 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                            )}
                         </AnalysisCard>
                         <AnalysisCard title="Spotlight Opportunity" icon={<HiddenTrendIcon className="w-5 h-5" />} animationDelay="100ms">
-                           <div className="flex items-start gap-4">
-                                {result.hiddenNiche.iconUrl && (
-                                    <img
-                                        src={result.hiddenNiche.iconUrl}
-                                        alt={`${result.hiddenNiche.trend} icon`}
-                                        className="w-16 h-16 rounded-lg object-cover bg-slate-100 dark:bg-slate-700 animate-fade-in flex-shrink-0"
-                                    />
-                                )}
-                                <div className="flex-1">
-                                    <p className="font-semibold text-slate-800 dark:text-slate-200 text-xl tracking-tight">{result.hiddenNiche.trend}</p>
-                                    <p className="text-base mt-1">{result.hiddenNiche.explanation}</p>
-                                </div>
+                           <div>
+                                <p className="font-semibold text-slate-800 dark:text-slate-200 text-xl tracking-tight">{result.hiddenNiche.trend}</p>
+                                <p className="text-base mt-1">{result.hiddenNiche.explanation}</p>
                             </div>
                         </AnalysisCard>
                         <AnalysisCard title="Proyeksi Kecepatan Tren" icon={<LifecycleIcon className="w-5 h-5" />} animationDelay="200ms">
@@ -228,13 +218,13 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                              {result.trendLifecycle.confidence && result.trendLifecycle.confidenceReason && (
                                 <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
                                     <div className="flex items-center gap-2 mb-2">
-                                        <BrainCircuitIcon className="w-5 h-5 text-sky-600 dark:text-sky-400" />
+                                        <BrainCircuitIcon className="w-5 h-5 text-brand dark:text-brand-light" />
                                         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Keyakinan Analisis AI:</p>
                                         <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full ${confidenceColors[result.trendLifecycle.confidence] ?? 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300'}`}>
                                             {result.trendLifecycle.confidence}
                                         </span>
                                     </div>
-                                    <blockquote className="text-sm text-slate-500 dark:text-slate-400 border-l-4 border-sky-300 dark:border-sky-600 pl-4 italic bg-slate-50 dark:bg-slate-800/50 p-3 rounded-r-md">
+                                    <blockquote className="text-sm text-slate-500 dark:text-slate-400 border-l-4 border-brand-light dark:border-brand pl-4 italic bg-slate-50 dark:bg-slate-800/50 p-3 rounded-r-md">
                                         "{result.trendLifecycle.confidenceReason}"
                                     </blockquote>
                                 </div>
@@ -246,12 +236,12 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <h4 className="flex items-center font-semibold text-slate-800 dark:text-slate-200 mb-3 text-base">
-                                            <HashtagIcon className="w-5 h-5 mr-2 text-sky-600 dark:text-sky-400" />
+                                            <HashtagIcon className="w-5 h-5 mr-2 text-brand dark:text-brand-light" />
                                             Trending Hashtags
                                         </h4>
                                         <div className="flex flex-wrap gap-2">
                                             {result.socialMediaTrends.trendingHashtags.map((tag, i) => (
-                                                <span key={i} className="px-3 py-1 text-sm font-medium text-sky-800 bg-sky-100 rounded-full dark:bg-sky-900/50 dark:text-sky-300">
+                                                <span key={i} className="px-3 py-1 text-sm font-medium text-brand-text bg-brand/10 rounded-full dark:bg-brand/20 dark:text-brand-light">
                                                     #{tag.replace(/\s+/g, '').toLowerCase()}
                                                 </span>
                                             ))}
@@ -259,7 +249,7 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                                     </div>
                                     <div>
                                         <h4 className="flex items-center font-semibold text-slate-800 dark:text-slate-200 mb-3 text-base">
-                                            <ContentFormatIcon className="w-5 h-5 mr-2 text-sky-600 dark:text-sky-400" />
+                                            <ContentFormatIcon className="w-5 h-5 mr-2 text-brand dark:text-brand-light" />
                                             Popular Content Formats
                                         </h4>
                                         <div className="space-y-3">

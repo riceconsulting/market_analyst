@@ -20,7 +20,7 @@ const PromptSuggestions: React.FC<PromptSuggestionsProps> = ({
             key={index}
             type="button"
             onClick={() => onSelectSuggestion(suggestion)}
-            className="px-3 py-1.5 text-sm text-sky-700 bg-sky-50 rounded-full hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:text-sky-300 dark:bg-sky-900/50 dark:hover:bg-sky-900"
+            className="px-3 py-1.5 text-sm text-brand-text bg-brand/10 rounded-full hover:bg-brand/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand dark:text-brand-light dark:bg-brand/20 dark:hover:bg-brand/30"
           >
             {suggestion}
           </button>

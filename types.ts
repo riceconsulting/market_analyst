@@ -6,7 +6,6 @@ export interface NicheTrendResult {
   hiddenNiche: {
     trend: string;
     explanation: string;
-    iconUrl?: string;
   };
   trendLifecycle: {
     phase: 'Baru' | 'Berkembang' | 'Matang' | 'Menurun';
@@ -67,7 +66,6 @@ export interface Competitor {
   name: string;
   type: string;
   reason: string;
-  iconUrl?: string;
 }
 
 export interface CompetitorDiscoveryResult {

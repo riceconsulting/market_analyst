@@ -1,4 +1,7 @@
 
+
+
+
 import React, { useState, useMemo, useCallback } from 'react';
 import Header from './components/Header';
 import NicheTrendAnalysis from './components/features/NicheTrendAnalysis';
@@ -72,8 +75,12 @@ const App: React.FC = () => {
         addHistoryItem({ type: 'niche', query: trimmedKeywords, result: analysisResult });
     } catch (err) {
         console.error(err);
-        const errorMessage = err instanceof Error ? err.message : "Gagal melakukan analisis. Silakan coba lagi nanti.";
-        setNicheError(errorMessage);
+        if (!navigator.onLine) {
+            setNicheError("Koneksi internet Anda terputus. Mohon periksa koneksi Anda dan coba lagi.");
+        } else {
+            const errorMessage = err instanceof Error ? err.message : "Gagal melakukan analisis. Silakan coba lagi nanti.";
+            setNicheError(errorMessage);
+        }
     } finally {
         setNicheIsLoading(false);
     }
@@ -108,8 +115,12 @@ const App: React.FC = () => {
           addHistoryItem({ type: 'competitor', query: trimmedIdentifier, focusKeywords: competitorFocusKeywords, result: analysis, sources });
       } catch (err) {
           console.error(err);
-          const errorMessage = err instanceof Error ? err.message : "Gagal melakukan analisis. Silakan coba lagi nanti.";
-          setCompetitorError(errorMessage);
+          if (!navigator.onLine) {
+            setCompetitorError("Koneksi internet Anda terputus. Mohon periksa koneksi Anda dan coba lagi.");
+          } else {
+            const errorMessage = err instanceof Error ? err.message : "Gagal melakukan analisis. Silakan coba lagi nanti.";
+            setCompetitorError(errorMessage);
+          }
       } finally {
           setCompetitorIsLoading(false);
       }
@@ -139,8 +150,12 @@ const App: React.FC = () => {
           addHistoryItem({ type: 'copy', query: trimmedQuestion, result: copyResult });
       } catch (err) {
           console.error(err);
-          const errorMessage = err instanceof Error ? err.message : "Gagal menghasilkan copy. Silakan coba lagi nanti.";
-          setSalesCopyError(errorMessage);
+          if (!navigator.onLine) {
+            setSalesCopyError("Koneksi internet Anda terputus. Mohon periksa koneksi Anda dan coba lagi.");
+          } else {
+            const errorMessage = err instanceof Error ? err.message : "Gagal menghasilkan copy. Silakan coba lagi nanti.";
+            setSalesCopyError(errorMessage);
+          }
       } finally {
           setSalesCopyIsLoading(false);
       }
@@ -172,8 +187,12 @@ const App: React.FC = () => {
         addHistoryItem({ type: 'discovery', query: trimmedQuery, result: analysis, sources });
     } catch (err) {
         console.error(err);
-        const errorMessage = err instanceof Error ? err.message : "Gagal menemukan kompetitor. Silakan coba lagi nanti.";
-        setDiscoveryError(errorMessage);
+        if (!navigator.onLine) {
+            setDiscoveryError("Koneksi internet Anda terputus. Mohon periksa koneksi Anda dan coba lagi.");
+        } else {
+            const errorMessage = err instanceof Error ? err.message : "Gagal menemukan kompetitor. Silakan coba lagi nanti.";
+            setDiscoveryError(errorMessage);
+        }
     } finally {
         setDiscoveryIsLoading(false);
     }
@@ -237,9 +256,9 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 font-sans dark:bg-slate-900">
       <Header />
-      <main className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 pb-32 sm:pb-36">
+      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pb-32 sm:pb-36">
         <div className="text-center mb-8 sm:mb-10 animate-slide-fade-in">
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-100 dark:to-slate-400">AI Market Analyst for SMEs</h1>
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-light">AI Market Analyst</h1>
             <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto dark:text-slate-400">Instant, data-driven insights to fuel your business growth in Indonesia.</p>
         </div>
         

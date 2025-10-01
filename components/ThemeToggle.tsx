@@ -21,7 +21,7 @@ const ThemeToggle: React.FC = () => {
         <button
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
-            className="relative p-2 w-10 h-10 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:focus:ring-offset-gray-900 overflow-hidden"
+            className="relative p-2 w-10 h-10 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand dark:focus:ring-offset-gray-900 overflow-hidden"
         >
             <div className={`absolute transition-all duration-300 ease-in-out ${theme === 'dark' ? 'transform opacity-0 -rotate-90 scale-50' : 'transform opacity-100 rotate-0 scale-100'}`}>
                 <SunIcon />

@@ -1,5 +1,6 @@
 
 
+
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import type { CompetitorAnalysisResult, GroundingChunk, HistoryItem } from '../../types';
 import { useHistory } from '../../hooks/useHistory';
@@ -201,7 +202,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
           </h3>
           <button
             type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-slate-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-slate-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-brand"
             onClick={onClose}
             aria-label="Close modal"
           >
@@ -341,7 +342,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             value={identifier}
                             onChange={(e) => setIdentifier(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <input
@@ -349,13 +350,13 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             value={focusKeywords}
                             onChange={(e) => setFocusKeywords(e.target.value)}
                             placeholder="Fokus analisis (opsional), mis: 'keberlanjutan', 'layanan pelanggan'"
-                            className="w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !identifier.trim()}
-                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 disabled:from-slate-400 disabled:to-slate-400 disabled:cursor-not-allowed dark:disabled:from-slate-600 dark:disabled:to-slate-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30"
+                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-slate-400 disabled:cursor-not-allowed dark:disabled:bg-slate-600 transition-all duration-300 transform hover:scale-105"
                         >
                             {isLoading ? 'Menganalisis...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Analisis Kompetitor</>}
                         </button>
@@ -382,7 +383,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                         <TrendChart
                                             data={sentimentTrendData}
                                             label="Customer Sentiment (% Positive)"
-                                            color="#0ea5e9"
+                                            color="#5890AD"
                                             formatValue={(v) => `${v.toFixed(1)}%`}
                                         />
                                     )}
@@ -397,7 +398,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                 </div>
                             </AnalysisCard>
                         ) : (
-                            <div className="flex items-center gap-3 p-4 rounded-lg bg-sky-50 border border-sky-200 text-sky-800 dark:bg-sky-900/30 dark:border-sky-700/50 dark:text-sky-300 animate-slide-fade-in">
+                            <div className="flex items-center gap-3 p-4 rounded-lg bg-brand/10 border border-brand/20 text-brand-text dark:bg-brand/20 dark:border-brand/40 dark:text-brand-light animate-slide-fade-in">
                                 <HistoryIcon className="w-6 h-6 flex-shrink-0" />
                                 <p className="text-sm">
                                     Ini adalah analisis pertama Anda untuk kompetitor ini. Analisis lagi di masa depan untuk melihat tren performa mereka dari waktu ke waktu.
@@ -491,7 +492,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                      <div className="space-y-4">
                                         <h4 className="font-semibold text-slate-800 dark:text-slate-200">Testimoni Kunci</h4>
                                         {result.socialProof.testimonials.map((testimonial, i) => (
-                                            <blockquote key={i} className="border-l-4 border-sky-300 pl-4 italic text-slate-600 dark:border-sky-700 dark:text-slate-400">
+                                            <blockquote key={i} className="border-l-4 border-brand-light pl-4 italic text-slate-600 dark:border-brand dark:text-slate-400">
                                                 "{testimonial}"
                                             </blockquote>
                                         ))}
@@ -518,7 +519,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             <AnalysisCard title="Kata Kunci Terkait" icon={<HashtagIcon className="w-5 h-5"/>} animationDelay="600ms">
                                 <div className="flex flex-wrap gap-2">
                                     {result.relevantKeywords.map((keyword, i) => (
-                                        <span key={i} className="px-3 py-1 text-sm font-medium text-sky-800 bg-sky-100 rounded-full dark:bg-sky-900/50 dark:text-sky-300">
+                                        <span key={i} className="px-3 py-1 text-sm font-medium text-brand-text bg-brand/10 rounded-full dark:bg-brand/20 dark:text-brand-light">
                                             #{keyword.replace(/\s+/g, '').toLowerCase()}
                                         </span>
                                     ))}
@@ -583,13 +584,13 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                     {/* Opportunities */}
                                     <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
                                         <h4 className="flex items-center font-semibold text-base text-slate-800 dark:text-slate-200 mb-3">
-                                            <OpportunityIcon className="w-5 h-5 mr-2 text-sky-500" />
+                                            <OpportunityIcon className="w-5 h-5 mr-2 text-brand" />
                                             Peluang (Opportunities)
                                         </h4>
                                         <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
                                             {result.swotAnalysis.opportunities.map((item, i) => (
                                                 <li key={`o-${i}`} className="flex items-start">
-                                                    <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-sky-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd"></path></svg>
+                                                    <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-brand" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd"></path></svg>
                                                     <span>{item}</span>
                                                 </li>
                                             ))}
@@ -624,7 +625,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                 <ul className="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-400">
                                     {sources.map((source, index) => (
                                         <li key={index}>
-                                            <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 hover:underline dark:text-sky-400 dark:hover:text-sky-300">
+                                            <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-brand hover:text-brand-dark dark:text-brand-light dark:hover:text-brand">
                                                 {source.web.title || source.web.uri}
                                             </a>
                                         </li>
