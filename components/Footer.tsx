@@ -1,21 +1,18 @@
 import React from 'react';
 
 const Footer: React.FC = () => {
-  const whatsappMessage = encodeURIComponent("Hi, I'm interested in a custom market analysis for my business. Can we schedule a discussion?");
-  const whatsappLink = `https://api.whatsapp.com/send/?phone=6285330168811&text=${whatsappMessage}&type=phone_number&app_absent=0`;
-
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-slate-50/70 backdrop-blur-lg z-20 border-t border-slate-900/10 dark:bg-slate-900/70 dark:border-slate-50/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex flex-col sm:flex-row justify-center items-center text-center sm:text-left">
-          <p className="text-sm text-slate-500 dark:text-slate-400 sm:mr-4 mb-2 sm:mb-0">
+    <footer className="w-full bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-sm shadow-lg z-50 border-t border-border-light dark:border-border-dark">
+      <div className="container mx-auto px-4 md:px-8 py-3">
+        <div className="flex flex-col sm:flex-row justify-center items-center text-center">
+          <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-2 sm:mb-0 sm:mr-4">
             Need a deeper, personalized market analysis?
           </p>
           <a
-            href={whatsappLink}
+            href="https://api.whatsapp.com/send/?phone=6285330168811&text=Hi%2C+I'm+interested+in+a+custom+market+analysis+for+my+business.+Can+we+schedule+a+discussion%3F&type=phone_number&app_absent=0"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-brand text-white font-semibold rounded-lg shadow-md hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-brand transition-all duration-200 dark:focus:ring-offset-slate-900"
+            className="px-4 py-2 bg-primary-light dark:bg-primary-dark text-white font-semibold rounded-lg shadow-md hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-light dark:focus:ring-offset-surface-dark focus:ring-primary-light dark:focus:ring-primary-dark transition-colors duration-200"
           >
             Get Custom Insights
           </a>
