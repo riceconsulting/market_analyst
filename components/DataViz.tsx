@@ -51,14 +51,14 @@ export const LifecycleGraph: React.FC<LifecycleGraphProps> = ({ activePhase }) =
     const [tooltip, setTooltip] = useState<{ content: string; x: number, y: number } | null>(null);
 
     const phaseConfig = {
-        'Baru': { cxPercentage: 15, color: '#5890AD', pathY: (h:number) => h * 0.8 },
-        'Berkembang': { cxPercentage: 40, color: '#5890AD', pathY: (h:number) => h * 0.5 },
-        'Matang': { cxPercentage: 65, color: '#5890AD', pathY: (h:number) => h * 0.3 },
-        'Menurun': { cxPercentage: 90, color: '#5890AD', pathY: (h:number) => h * 0.2 },
+        'Baru': { cxPercentage: 15, color: 'var(--color-primary-light)', pathY: (h:number) => h * 0.8 },
+        'Berkembang': { cxPercentage: 40, color: 'var(--color-primary-light)', pathY: (h:number) => h * 0.5 },
+        'Matang': { cxPercentage: 65, color: 'var(--color-primary-light)', pathY: (h:number) => h * 0.3 },
+        'Menurun': { cxPercentage: 90, color: 'var(--color-primary-light)', pathY: (h:number) => h * 0.2 },
     };
 
     const activePhaseConfig = phaseConfig[activePhase];
-    const activeTextColor = theme === 'dark' ? '#9BBBCC' : '#5890AD';
+    const activeTextColor = theme === 'dark' ? 'var(--color-accent-dark)' : 'var(--color-accent-light)';
     const inactiveTextColor = theme === 'dark' ? '#94a3b8' : '#64748b';
 
     const handleMouseOver = (phase: keyof typeof phaseDescriptions, event: React.MouseEvent) => {
