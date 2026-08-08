@@ -144,7 +144,7 @@ export const LifecycleGraph: React.FC<LifecycleGraphProps> = ({ activePhase }) =
                 </svg>
             </div>
             <div 
-                className="absolute p-2 text-center text-xs text-white bg-background-dark/90 dark:bg-background-light/90 dark:text-text-primary-light rounded-md shadow-lg pointer-events-none z-10"
+                className="absolute p-2 text-center text-xs text-white bg-background-dark/90 dark:bg-background-light/90 dark:text-text-primary-dark rounded-md shadow-lg pointer-events-none z-10"
                 style={getTooltipStyle()}
             >
                 {tooltip?.content}
@@ -468,7 +468,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({ data, label, color, form
                             <div className="absolute top-0 left-0 pointer-events-none w-full h-full">
                                 <div className="absolute bg-border-light dark:bg-border-dark" style={{ left: tooltipX, top: padding.top, width: 1, height: height - padding.top - padding.bottom }} />
                                 <div 
-                                    className="absolute p-1.5 text-center text-xs text-white bg-background-dark/90 dark:bg-background-light/90 dark:text-text-primary-light rounded-md shadow-lg"
+                                    className="absolute p-1.5 text-center text-xs text-white bg-background-dark/90 dark:bg-background-light/90 dark:text-text-primary-dark rounded-md shadow-lg"
                                     style={{
                                         top: tooltipY,
                                         left: tooltipX,
