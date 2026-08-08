@@ -195,13 +195,53 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                     <SampleOutput
                         title="Sample Output: Niche Analysis"
                         description="Here's an example of the market analysis the tool can generate."
-                        sampleData={[
-                            {
-                                label: 'Digital Marketing Agency Analysis',
-                                content: `🎨 **Vibe Board: Neo-Tech Humanist**\nPenggunaan kombinasi warna Deep Navy, Cyber Teal, dan aksen Warm Coral dengan typography sans-serif geometris bersih.\n\n🎯 **Spotlight Opportunity**\nAI-Driven Hyper-Local Micro-Influencer Agency for Tier 2/3 Cities\nMemanfaatkan gelombang adopsi AI untuk memfasilitasi UMKM daerah.\n\n📈 **Trend Projection**\nStatus: Baru (New)\nKey Insight: Dominasi spesialisasi vertikal niche dan integrasikan AI dalam workflow.\n\n💬 **Social Media Pulse**\nTrending Hashtags: #agencylifeid #belajardigitalmarketing #strategibisnisumkm\n\n📱 **Popular Content Formats**\n1. Behind-the-Scenes Campaign Breakdown\n2. Live Interactive Brand Audit`
-                            }
-                        ]}
-                    />
+                    >
+                        <div className="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                            <div className="flex items-center gap-2 mb-3">
+                                <span className="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium rounded">Digital Marketing</span>
+                                <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark">Agency Analysis</span>
+                            </div>
+                            
+                            <div className="space-y-3">
+                                <div className="p-2 bg-surface-light dark:bg-surface-dark rounded border border-border-light dark:border-border-dark">
+                                    <p className="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">🎨 Vibe Board: Neo-Tech Humanist</p>
+                                    <p className="text-xs text-text-primary-light dark:text-text-primary-dark">Deep Navy + Cyber Teal + Warm Coral, clean geometric sans-serif typography.</p>
+                                    <div className="flex gap-1 mt-2">
+                                        <div className="w-6 h-6 rounded-full bg-blue-900" title="Deep Navy"></div>
+                                        <div className="w-6 h-6 rounded-full bg-teal-500" title="Cyber Teal"></div>
+                                        <div className="w-6 h-6 rounded-full bg-orange-400" title="Warm Coral"></div>
+                                    </div>
+                                </div>
+                                
+                                <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded border border-green-200 dark:border-green-800/30">
+                                    <p className="text-xs font-medium text-green-700 dark:text-green-300 mb-1">🎯 Spotlight Opportunity</p>
+                                    <p className="text-xs text-text-primary-light dark:text-text-primary-dark">AI-Driven Hyper-Local Micro-Influencer Agency for Tier 2/3 Cities - Leverage AI adoption to facilitate local SMEs.</p>
+                                </div>
+                                
+                                <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800/30">
+                                    <p className="text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">📈 Trend Status: New</p>
+                                    <p className="text-xs text-text-primary-light dark:text-text-primary-dark">Vertical niche specialization dominance + AI integration in workflow.</p>
+                                </div>
+                                
+                                <div className="p-2 bg-surface-light dark:bg-surface-dark rounded border border-border-light dark:border-border-dark">
+                                    <p className="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">💬 Trending Hashtags</p>
+                                    <div className="flex flex-wrap gap-1">
+                                        <span className="px-1.5 py-0.5 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark text-xs rounded">#agencylifeid</span>
+                                        <span className="px-1.5 py-0.5 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark text-xs rounded">#belajardigitalmarketing</span>
+                                        <span className="px-1.5 py-0.5 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark text-xs rounded">#strategibisnisumkm</span>
+                                    </div>
+                                </div>
+                                
+                                <div className="p-2 bg-surface-light dark:bg-surface-dark rounded border border-border-light dark:border-border-dark">
+                                    <p className="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark mb-1">📱 Popular Content Formats</p>
+                                    <ol className="text-xs text-text-primary-light dark:text-text-primary-dark list-decimal list-inside">
+                                        <li>Behind-the-Scenes Campaign Breakdown</li>
+                                        <li>Live Interactive Brand Audit</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </SampleOutput>
                 )}
                 {!isLoading && !error && result && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
