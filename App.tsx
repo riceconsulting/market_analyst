@@ -254,9 +254,9 @@ const App: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-background-light font-sans dark:bg-background-dark">
+    <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
       <Header />
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pb-32 sm:pb-36">
+      <main className="flex-grow w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         <div className="text-center mb-8 sm:mb-10 animate-slide-fade-in">
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-light">AI Market Analyst</h1>
             <p className="mt-3 text-base sm:text-lg text-text-secondary-light max-w-2xl mx-auto dark:text-text-secondary-dark">Instant, data-driven insights to fuel your business growth in Indonesia.</p>
