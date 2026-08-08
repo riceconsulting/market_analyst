@@ -98,7 +98,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onLoadFromHistory }) => {
                         <div className="p-4 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
                             <button
                                 onClick={clearHistory}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:text-red-400 dark:bg-red-900/20 dark:hover:bg-red-900/40"
+                                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-error-light dark:text-error-dark bg-error-light dark:bg-error-dark rounded-md hover:bg-error-light dark:hover:bg-error-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light dark:focus:ring-accent-dark   "
                             >
                                 <TrashIcon className="w-4 h-4" />
                                 Clear History

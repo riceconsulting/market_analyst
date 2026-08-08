@@ -554,13 +554,13 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                     {/* Strengths */}
                                     <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
                                         <h4 className="flex items-center font-semibold text-base text-slate-800 dark:text-slate-200 mb-3">
-                                            <ShieldCheckIcon className="w-5 h-5 mr-2 text-green-500" />
+                                            <ShieldCheckIcon className="w-5 h-5 mr-2 text-success-light dark:text-success-dark" />
                                             Kekuatan (Strengths)
                                         </h4>
                                         <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
                                             {result.swotAnalysis.strengths.map((item, i) => (
                                                 <li key={`s-${i}`} className="flex items-start">
-                                                    <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
+                                                    <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-success-light dark:text-success-dark" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
                                                     <span>{item}</span>
                                                 </li>
                                             ))}
@@ -569,13 +569,13 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                     {/* Weaknesses */}
                                     <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
                                         <h4 className="flex items-center font-semibold text-base text-slate-800 dark:text-slate-200 mb-3">
-                                            <WeaknessIcon className="w-5 h-5 mr-2 text-red-500" />
+                                            <WeaknessIcon className="w-5 h-5 mr-2 text-error-light dark:text-error-dark" />
                                             Kelemahan (Weaknesses)
                                         </h4>
                                         <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
                                             {result.swotAnalysis.weaknesses.map((item, i) => (
                                                 <li key={`w-${i}`} className="flex items-start">
-                                                    <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
+                                                    <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-error-light dark:text-error-dark" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
                                                     <span>{item}</span>
                                                 </li>
                                             ))}

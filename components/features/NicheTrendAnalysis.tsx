@@ -150,9 +150,9 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
     const vibeColors = result ? extractColors(result.dominantVibe.details) : [];
 
     const confidenceColors: { [key: string]: string } = {
-        'Tinggi': 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
+        'Tinggi': 'bg-success-light dark:bg-success-dark',
         'Sedang': 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-        'Rendah': 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
+        'Rendah': 'bg-error-light dark:bg-error-dark',
     };
 
     return (
