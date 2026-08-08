@@ -13,6 +13,7 @@ import { NicheIcon, CompetitorIcon, CopyIcon, DiscoveryIcon } from './components
 import { NicheTrendResult, CompetitorAnalysisResult, SalesCopyResult, GroundingChunk, HistoryItem, CompetitorDiscoveryResult } from './types';
 import { analyzeNicheTrend, analyzeCompetitor, generateSalesCopy, discoverCompetitors } from './services/geminiService';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 import { useHistory } from './hooks/useHistory';
 import HistoryPanel from './components/HistoryPanel';
 
@@ -254,6 +255,7 @@ const App: React.FC = () => {
 
 
   return (
+    <ErrorBoundary>
     <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300">
       <Header />
       <main className="flex-grow w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
@@ -327,6 +329,7 @@ const App: React.FC = () => {
       <HistoryPanel onLoadFromHistory={loadFromHistory} />
       <Footer />
     </div>
+    </ErrorBoundary>
   );
 };
 
