@@ -10,7 +10,7 @@ if (!process.env.API_KEY) {
 }
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-const model = 'gemini-3.6-flash';
+const MODEL_NAME = 'gemini-3.6-flash';
 
 /**
  * A robust JSON parser that attempts to parse the AI's response.

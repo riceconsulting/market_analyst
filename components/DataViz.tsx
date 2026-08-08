@@ -59,7 +59,7 @@ export const LifecycleGraph: React.FC<LifecycleGraphProps> = ({ activePhase }) =
 
     const activePhaseConfig = phaseConfig[activePhase];
     const activeTextColor = theme === 'dark' ? 'var(--color-accent-dark)' : 'var(--color-accent-light)';
-    const inactiveTextColor = theme === 'dark' ? '#94a3b8' : '#64748b';
+    const inactiveTextColor = theme === 'dark' ? 'var(--color-text-secondary-dark)' : 'var(--color-text-secondary-light)';
 
     const handleMouseOver = (phase: keyof typeof phaseDescriptions, event: React.MouseEvent) => {
         if (!containerRef.current) return;
@@ -456,7 +456,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({ data, label, color, form
                                         cy={getY(d.value)}
                                         r={activePoint?.timestamp === d.timestamp ? 5 : 3.5}
                                         fill={color}
-                                        stroke={theme === 'dark' ? '#1e293b' : 'white'}
+                                        stroke={theme === 'dark' ? 'var(--color-background-dark)' : 'white'}
                                         strokeWidth="2"
                                         className="transition-all duration-200"
                                     />
@@ -511,9 +511,9 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ level }) => {
                     <path d="M 5 50 A 45 45 0 0 1 95 50" stroke="url(#gradient)" strokeWidth="10" fill="none" strokeLinecap="round" />
                     <defs>
                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#5890AD" />
-                            <stop offset="50%" stopColor="#F59E0B" />
-                            <stop offset="100%" stopColor="#E11D48" />
+                            <stop offset="0%" stopColor="var(--color-primary-light)" />
+                            <stop offset="50%" stopColor="var(--color-accent-light)" />
+                            <stop offset="100%" stopColor="var(--color-secondary-light)" />
                         </linearGradient>
                     </defs>
                     <g transform={`translate(50, 50) rotate(${angle})`} className="transition-transform duration-700 ease-in-out">
