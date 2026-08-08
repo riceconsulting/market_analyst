@@ -9,6 +9,7 @@ import AnalysisCard from '../AnalysisCard';
 import { PaletteIcon, HiddenTrendIcon, LifecycleIcon, SparkleIcon, BrainCircuitIcon, HashtagIcon, ContentFormatIcon } from '../Icons';
 import PromptSuggestions from '../PromptSuggestions';
 import { LifecycleGraph } from '../DataViz';
+import SampleOutput from '../SampleOutput';
 
 const NICHE_SUGGESTIONS = [
     "Thrift fashion style Y2K",
@@ -190,6 +191,18 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
             <div className="mt-8">
                 {isLoading && <NicheSkeleton />}
                 {error && <ErrorMessage message={error} />}
+                {!isLoading && !error && !result && (
+                    <SampleOutput
+                        title="Sample Output: Niche Analysis"
+                        description="Here's an example of the market analysis the tool can generate."
+                        sampleData={[
+                            {
+                                label: 'Digital Marketing Agency Analysis',
+                                content: `🎨 **Vibe Board: Neo-Tech Humanist**\nPenggunaan kombinasi warna Deep Navy, Cyber Teal, dan aksen Warm Coral dengan typography sans-serif geometris bersih.\n\n🎯 **Spotlight Opportunity**\nAI-Driven Hyper-Local Micro-Influencer Agency for Tier 2/3 Cities\nMemanfaatkan gelombang adopsi AI untuk memfasilitasi UMKM daerah.\n\n📈 **Trend Projection**\nStatus: Baru (New)\nKey Insight: Dominasi spesialisasi vertikal niche dan integrasikan AI dalam workflow.\n\n💬 **Social Media Pulse**\nTrending Hashtags: #agencylifeid #belajardigitalmarketing #strategibisnisumkm\n\n📱 **Popular Content Formats**\n1. Behind-the-Scenes Campaign Breakdown\n2. Live Interactive Brand Audit`
+                            }
+                        ]}
+                    />
+                )}
                 {!isLoading && !error && result && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                          <AnalysisCard title="Vibe Board" icon={<PaletteIcon className="w-5 h-5" />} className="lg:col-span-2">
