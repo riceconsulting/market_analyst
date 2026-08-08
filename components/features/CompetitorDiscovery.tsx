@@ -32,11 +32,11 @@ interface CompetitorDiscoveryProps {
 }
 
 const CompetitorCard: React.FC<{ competitor: Competitor }> = ({ competitor }) => (
-    <div className="p-4 border border-slate-200 rounded-lg bg-slate-50 dark:bg-slate-700/50 dark:border-slate-700">
+    <div className="p-4 border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark/50 dark:border-border-light dark:border-border-dark">
         <div>
-            <h4 className="font-bold text-slate-800 dark:text-slate-100">{competitor.name}</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{competitor.type}</p>
-            <p className="text-sm text-slate-600 dark:text-slate-300">{competitor.reason}</p>
+            <h4 className="font-bold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{competitor.name}</h4>
+            <p className="text-xs text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-2">{competitor.type}</p>
+            <p className="text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{competitor.reason}</p>
         </div>
     </div>
 );
@@ -67,9 +67,9 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
 
     return (
         <div className="w-full">
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-lg dark:bg-slate-800 dark:border-slate-700">
-                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-1">Temukan Peta Persaingan Anda</h2>
-                <p className="text-slate-600 dark:text-slate-400 mb-4">Masukkan produk, brand, atau layanan Anda untuk menemukan siapa saja kompetitor Anda di pasar.</p>
+            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark">
+                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-1">Temukan Peta Persaingan Anda</h2>
+                <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-4">Masukkan produk, brand, atau layanan Anda untuk menemukan siapa saja kompetitor Anda di pasar.</p>
                 <form onSubmit={handleFormSubmit}>
                     <div className="flex flex-col md:flex-row gap-2">
                         <input
@@ -77,13 +77,13 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full min-w-0 px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="flex-grow w-full min-w-0 px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !query.trim()}
-                            className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-slate-400 disabled:cursor-not-allowed dark:disabled:bg-slate-600 transition-all duration-300 transform hover:scale-105"
+                            className="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-surface-light dark:bg-surface-dark disabled:cursor-not-allowed dark:disabled:bg-surface-light dark:bg-surface-dark transition-all duration-300 transform hover:scale-105"
                         >
                             {isLoading ? 'Mencari...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Cari Kompetitor</>}
                         </button>
@@ -107,7 +107,7 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                                 {result.directCompetitors.length > 0 ? (
                                     result.directCompetitors.map(comp => <CompetitorCard key={comp.name} competitor={comp} />)
                                 ) : (
-                                    <p className="text-slate-500 dark:text-slate-400">Tidak ada kompetitor langsung yang ditemukan.</p>
+                                    <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Tidak ada kompetitor langsung yang ditemukan.</p>
                                 )}
                             </div>
                         </AnalysisCard>
@@ -116,15 +116,15 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                                 {result.indirectCompetitors.length > 0 ? (
                                     result.indirectCompetitors.map(comp => <CompetitorCard key={comp.name} competitor={comp} />)
                                 ) : (
-                                     <p className="text-slate-500 dark:text-slate-400">Tidak ada kompetitor tidak langsung yang ditemukan.</p>
+                                     <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Tidak ada kompetitor tidak langsung yang ditemukan.</p>
                                 )}
                             </div>
                         </AnalysisCard>
                         
                         {sources.length > 0 && (
                             <div className="lg:col-span-2 mt-2 text-sm animate-slide-fade-in" style={{ animationDelay: '200ms' }}>
-                                <h4 className="font-semibold text-slate-700 dark:text-slate-200 mb-2">Sumber Informasi:</h4>
-                                <ul className="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-400">
+                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-2">Sumber Informasi:</h4>
+                                <ul className="space-y-1 list-disc list-inside text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
                                     {sources.map((source, index) => (
                                         <li key={index}>
                                             <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-brand hover:text-brand-dark hover:underline dark:text-brand-light dark:hover:text-brand">

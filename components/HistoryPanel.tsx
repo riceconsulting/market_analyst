@@ -20,17 +20,17 @@ const HistoryItemCard: React.FC<{ item: HistoryItem; onLoad: (item: HistoryItem)
     return (
         <button 
             onClick={() => onLoad(item)}
-            className="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-brand/10 border border-slate-200 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:bg-slate-700/50 dark:hover:bg-brand/20 dark:border-slate-700"
+            className="w-full text-left p-3 rounded-lg bg-surface-light hover:bg-brand/10 border border-border-light transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:bg-surface-dark/50 dark:hover:bg-brand/20 dark:border-border-dark"
             style={style}
         >
             <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2 min-w-0">
                     <div className="flex-shrink-0">{getIconForType(type)}</div>
-                    <p className="font-semibold text-slate-700 dark:text-slate-200 truncate text-sm" title={query}>
+                    <p className="font-semibold text-text-primary-light dark:text-text-primary-dark truncate text-sm" title={query}>
                         {query}
                     </p>
                 </div>
-                <p className="text-xs text-slate-400 dark:text-slate-500 flex-shrink-0 ml-2">{new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark flex-shrink-0 ml-2">{new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
             </div>
         </button>
     );
@@ -63,19 +63,19 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onLoadFromHistory }) => {
             {isOpen && <div className="fixed inset-0 bg-black/30 z-40 animate-fade-in" style={{ animationDuration: '0.3s' }} onClick={() => setIsOpen(false)}></div>}
 
             <div
-                className={`fixed top-0 right-0 h-full w-full max-w-sm bg-slate-100 shadow-2xl z-50 transform transition-transform duration-300 dark:bg-slate-800 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-0 right-0 h-full w-full max-w-sm bg-surface-light shadow-2xl z-50 transform transition-transform duration-300 dark:bg-surface-dark ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
                 style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="history-panel-title"
             >
                 <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
-                        <h2 id="history-panel-title" className="text-lg font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                    <div className="flex items-center justify-between p-4 border-b border-border-light bg-surface-light dark:border-border-dark dark:bg-background-dark">
+                        <h2 id="history-panel-title" className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark flex items-center gap-2">
                             <HistoryIcon className="w-6 h-6 text-brand-text dark:text-brand-light" />
                             Analysis History
                         </h2>
-                        <button onClick={() => setIsOpen(false)} className="p-1 rounded-full text-2xl leading-none hover:bg-slate-100 text-slate-500 dark:hover:bg-slate-700 dark:text-slate-400" aria-label="Close history panel"><span aria-hidden="true">&times;</span></button>
+                        <button onClick={() => setIsOpen(false)} className="p-1 rounded-full text-2xl leading-none hover:bg-surface-light text-text-secondary-light dark:hover:bg-surface-dark dark:text-text-secondary-dark" aria-label="Close history panel"><span aria-hidden="true">&times;</span></button>
                     </div>
 
                     <div className="flex-grow p-4 overflow-y-auto">
@@ -87,15 +87,15 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onLoadFromHistory }) => {
                             </div>
                         ) : (
                             <div className="text-center py-10 h-full flex flex-col justify-center items-center">
-                                <HistoryIcon className="w-12 h-12 mx-auto text-slate-300 dark:text-gray-600" />
-                                <h3 className="mt-2 text-sm font-medium text-slate-700 dark:text-slate-300">No History Yet</h3>
-                                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Your recent analyses will appear here.</p>
+                                <HistoryIcon className="w-12 h-12 mx-auto text-border-light dark:text-border-dark" />
+                                <h3 className="mt-2 text-sm font-medium text-text-primary-light dark:text-text-primary-dark">No History Yet</h3>
+                                <p className="mt-1 text-sm text-text-secondary-light dark:text-text-secondary-dark">Your recent analyses will appear here.</p>
                             </div>
                         )}
                     </div>
                     
                     {history.length > 0 && (
-                        <div className="p-4 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+                        <div className="p-4 border-t border-border-light bg-surface-light dark:border-border-dark dark:bg-background-dark">
                             <button
                                 onClick={clearHistory}
                                 className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-error-light dark:text-error-dark bg-error-light dark:bg-error-dark rounded-md hover:bg-error-light dark:hover:bg-error-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light dark:focus:ring-accent-dark   "

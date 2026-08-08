@@ -81,22 +81,22 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
 
     return (
         <div className="w-full">
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-lg dark:bg-slate-800 dark:border-slate-700">
-                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-1">Generator Klausa & Copy Penjualan</h2>
-                <p className="text-slate-600 dark:text-slate-400 mb-4">Ajukan pertanyaan bisnis untuk mendapatkan analisis risiko dan draft copy yang aman dan efektif.</p>
+            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark">
+                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-1">Generator Klausa & Copy Penjualan</h2>
+                <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-4">Ajukan pertanyaan bisnis untuk mendapatkan analisis risiko dan draft copy yang aman dan efektif.</p>
                 <form onSubmit={handleFormSubmit}>
                     <div className="flex flex-col gap-2">
                         <textarea
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full px-4 py-3 text-slate-700 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-500"
+                            className="flex-grow w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !question.trim()}
-                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-slate-400 disabled:cursor-not-allowed dark:disabled:bg-slate-600 transition-all duration-300 transform hover:scale-105"
+                            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand disabled:bg-surface-light dark:bg-surface-dark disabled:cursor-not-allowed dark:disabled:bg-surface-light dark:bg-surface-dark transition-all duration-300 transform hover:scale-105"
                         >
                             {isLoading ? 'Menganalisis...' : <><SparkleIcon className="w-5 h-5 mr-2" /> Analisis & Buat Copy</>}
                         </button>
@@ -120,18 +120,18 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
                            <RiskGauge level={riskLevel} />
                         </AnalysisCard>
                         <AnalysisCard title="Copy & Paste Ready" icon={<ShieldCheckIcon className="w-5 h-5" />} animationDelay="100ms">
-                            <div className="relative p-4 border border-slate-200 rounded-md bg-slate-50 font-mono text-sm dark:border-slate-600 dark:bg-slate-900/30">
+                            <div className="relative p-4 border border-border-light dark:border-border-dark rounded-md bg-surface-light dark:bg-surface-dark font-mono text-sm dark:border-border-light dark:border-border-dark dark:bg-surface-light dark:bg-surface-dark/30">
                                 <button
                                     onClick={handleCopy}
-                                    className="absolute top-2 right-2 p-2 text-slate-500 bg-white rounded-md hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+                                    className="absolute top-2 right-2 p-2 text-text-primary-light dark:text-text-primary-dark bg-white rounded-md hover:bg-surface-light dark:bg-surface-dark hover:text-text-primary-light dark:text-text-primary-dark focus:outline-none focus:ring-2 focus:ring-brand dark:bg-surface-light dark:bg-surface-dark dark:text-text-primary-light dark:text-text-primary-dark dark:hover:bg-surface-light dark:bg-surface-dark dark:hover:text-text-primary-light dark:text-text-primary-dark"
                                     aria-label="Copy to clipboard"
                                 >
                                     <CopyIcon className="w-5 h-5" />
                                 </button>
-                                {isCopied && <span className="absolute top-2 right-12 bg-slate-800 text-white text-xs px-2 py-1 rounded dark:bg-slate-200 dark:text-slate-800">Copied!</span>}
+                                {isCopied && <span className="absolute top-2 right-12 bg-surface-light dark:bg-surface-dark text-white text-xs px-2 py-1 rounded dark:bg-surface-light dark:bg-surface-dark dark:text-text-primary-light dark:text-text-primary-dark">Copied!</span>}
 
-                                <h4 className="font-sans font-bold text-slate-800 dark:text-slate-100 text-lg mb-2">{result.riskMitigationCopy.title}</h4>
-                                <p className="whitespace-pre-wrap font-sans dark:text-slate-300">{result.riskMitigationCopy.body}</p>
+                                <h4 className="font-sans font-bold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark text-lg mb-2">{result.riskMitigationCopy.title}</h4>
+                                <p className="whitespace-pre-wrap font-sans dark:text-text-primary-light dark:text-text-primary-dark">{result.riskMitigationCopy.body}</p>
                             </div>
                         </AnalysisCard>
                     </div>

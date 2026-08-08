@@ -144,7 +144,7 @@ export const LifecycleGraph: React.FC<LifecycleGraphProps> = ({ activePhase }) =
                 </svg>
             </div>
             <div 
-                className="absolute p-2 text-center text-xs text-white bg-slate-800/90 dark:bg-slate-200/90 dark:text-slate-800 rounded-md shadow-lg pointer-events-none z-10"
+                className="absolute p-2 text-center text-xs text-white bg-background-dark/90 dark:bg-background-light/90 dark:text-text-primary-light rounded-md shadow-lg pointer-events-none z-10"
                 style={getTooltipStyle()}
             >
                 {tooltip?.content}
@@ -198,7 +198,7 @@ export const PricingBenchmarkChart: React.FC<PricingBenchmarkChartProps> = ({ ma
     }, [competitorsWithRanges]);
 
     if (competitorsWithRanges.length === 0) {
-        return <p className="text-sm text-center text-slate-500 dark:text-slate-400 py-4">Data rentang harga tidak cukup untuk membuat perbandingan.</p>;
+        return <p className="text-sm text-center text-text-secondary-light dark:text-text-secondary-dark py-4">Data rentang harga tidak cukup untuk membuat perbandingan.</p>;
     }
 
     const totalRange = overallMax - overallMin;
@@ -211,16 +211,16 @@ export const PricingBenchmarkChart: React.FC<PricingBenchmarkChartProps> = ({ ma
                 const widthPercent = totalRange > 0 ? ((max - min) / totalRange) * 100 : 100;
                 const isMain = competitor.name === mainCompetitor.name;
 
-                const barBg = isMain ? 'bg-brand' : 'bg-slate-300 dark:bg-gray-600';
-                const textLabel = isMain ? 'text-brand-text dark:text-brand-light' : 'text-slate-800 dark:text-slate-200';
+                const barBg = isMain ? 'bg-brand' : 'bg-border-light dark:bg-border-dark';
+                const textLabel = isMain ? 'text-brand-text dark:text-brand-light' : 'text-text-primary-light dark:text-text-primary-dark';
 
                 return (
                     <div key={index}>
                         <div className="flex justify-between items-center mb-1 flex-wrap">
                             <p className={`font-semibold text-sm ${textLabel}`}>{competitor.name} {isMain && '(Target)'}</p>
-                            <p className="text-xs font-mono text-slate-500 dark:text-slate-400">{formatCurrency(min)} - {formatCurrency(max)}</p>
+                            <p className="text-xs font-mono text-text-secondary-light dark:text-text-secondary-dark">{formatCurrency(min)} - {formatCurrency(max)}</p>
                         </div>
-                        <div className="w-full h-6 bg-slate-100 rounded-full dark:bg-gray-700" title={`Rentang harga ${competitor.name}: ${formatCurrency(min)} - ${formatCurrency(max)}`}>
+                        <div className="w-full h-6 bg-surface-light rounded-full dark:bg-border-dark" title={`Rentang harga ${competitor.name}: ${formatCurrency(min)} - ${formatCurrency(max)}`}>
                             <div
                                 className={`h-full rounded-full transition-all duration-700 ease-out ${barBg}`}
                                 style={{
@@ -234,7 +234,7 @@ export const PricingBenchmarkChart: React.FC<PricingBenchmarkChartProps> = ({ ma
                     </div>
                 );
             })}
-            <div className="flex justify-between text-xs font-mono text-slate-500 dark:text-slate-400 pt-1">
+            <div className="flex justify-between text-xs font-mono text-text-secondary-light dark:text-text-secondary-dark pt-1">
                 <span>{formatCurrency(overallMin)}</span>
                 <span>{formatCurrency(overallMax)}</span>
             </div>
@@ -257,7 +257,7 @@ export const SentimentChart: React.FC<SentimentChartProps> = ({ praiseCount, com
     }, []);
 
     const total = praiseCount + complaintCount;
-    if (total === 0) return <div className="text-center text-slate-500 dark:text-slate-400">No sentiment data available.</div>;
+    if (total === 0) return <div className="text-center text-text-secondary-light dark:text-text-secondary-dark">No sentiment data available.</div>;
 
     const praisePercent = (praiseCount / total) * 100;
     const complaintPercent = 100 - praisePercent;
@@ -307,8 +307,8 @@ export const SentimentChart: React.FC<SentimentChartProps> = ({ praiseCount, com
                     </g>
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-transform duration-200 group-hover:scale-105">
-                    <span className="text-2xl font-bold text-slate-800 dark:text-slate-100 sm:text-3xl">{praisePercent.toFixed(0)}%</span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm">Positif</span>
+                    <span className="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark sm:text-3xl">{praisePercent.toFixed(0)}%</span>
+                    <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark sm:text-sm">Positif</span>
                 </div>
             </div>
             <div className="flex w-full max-w-[128px] justify-between text-xs">
@@ -427,7 +427,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({ data, label, color, form
 
     return (
         <div>
-            <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-2">{label}</h4>
+            <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">{label}</h4>
             <div ref={containerRef} className="relative w-full" style={{ height: `${height}px` }}>
                 {width > 0 && (
                     <>
@@ -466,9 +466,9 @@ export const TrendChart: React.FC<TrendChartProps> = ({ data, label, color, form
 
                         {activePoint && (
                             <div className="absolute top-0 left-0 pointer-events-none w-full h-full">
-                                <div className="absolute bg-slate-300 dark:bg-slate-600" style={{ left: tooltipX, top: padding.top, width: 1, height: height - padding.top - padding.bottom }} />
+                                <div className="absolute bg-border-light dark:bg-border-dark" style={{ left: tooltipX, top: padding.top, width: 1, height: height - padding.top - padding.bottom }} />
                                 <div 
-                                    className="absolute p-1.5 text-center text-xs text-white bg-slate-800/90 dark:bg-slate-200/90 dark:text-slate-800 rounded-md shadow-lg"
+                                    className="absolute p-1.5 text-center text-xs text-white bg-background-dark/90 dark:bg-background-light/90 dark:text-text-primary-light rounded-md shadow-lg"
                                     style={{
                                         top: tooltipY,
                                         left: tooltipX,
@@ -523,10 +523,10 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ level }) => {
                 </svg>
             </div>
             <div className="text-center -mt-2">
-                <p className="font-semibold text-sm text-slate-800 dark:text-slate-100">
+                <p className="font-semibold text-sm text-text-primary-light dark:text-text-primary-dark">
                     Estimasi Risiko: <span className={`${color}`}>{label}</span>
                 </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 px-2">
+                <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark mt-1 px-2">
                     {description}
                 </p>
             </div>
