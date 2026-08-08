@@ -1,91 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RICE AI Market Analyst</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      // Set theme on initial load to prevent FOUC (Flash of Unstyled Content)
-      // Default to light mode if no theme is set in localStorage
-      if (localStorage.theme === 'dark') {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        darkMode: 'class', // Enable class-based dark mode
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
+              heading: ['Poppins', 'sans-serif'],
             },
             colors: {
-              'brand': {
-                'light': '#9BBBCC',     // Lighter shade for backgrounds/borders
-                'DEFAULT': '#5890AD',   // Primary action color
-                'dark': '#4a7993',      // Darker shade for hover/active states
-                'text': '#3a6278'       // Darker text version for high contrast on light backgrounds
+              'primary-light': '#9BBBCC',
+              'primary-dark': '#5890AD',
+              'accent-light': '#5890AD',
+              'accent-dark': '#9BBBCC',
+              'background-light': '#f8fafc',
+              'background-dark': '#0f172a',
+              'surface-light': '#ffffff',
+              'surface-dark': '#1e293b',
+              'text-primary-light': '#0f172a',
+              'text-primary-dark': '#f1f5f9',
+              'text-secondary-light': '#475569',
+              'text-secondary-dark': '#94a3b8',
+              'border-light': '#e2e8f0',
+              'border-dark': '#334155',
+              // Legacy aliases
+              'brand-light': '#9BBBCC',
+              'brand': '#5890AD',
+              'brand-dark': '#4a7993',
+              'brand-text': '#3a6278',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
               },
-            }
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(1rem)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              slideInDown: {
+                '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              popIn: {
+                '0%': { opacity: '0', transform: 'scale(0.95) translateY(10px)' },
+                '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+              },
+              'fade-in-scale': {
+                '0%': { opacity: '0', transform: 'scale(0.95)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              'slide-fade-in': {
+                '0%': { opacity: '0', transform: 'translateY(20px) scale(0.98)' },
+                '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+              },
+              'loading-bar': {
+                '0%': { backgroundPosition: '200% 0' },
+                '100%': { backgroundPosition: '-200% 0' },
+              },
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.4s ease-out forwards',
+              'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+              'slide-in-down': 'slideInDown 0.5s ease-out forwards',
+              'pop-in': 'popIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both',
+              'fade-in-scale': 'fade-in-scale 0.3s ease-out forwards',
+              'slide-fade-in': 'slide-fade-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both',
+              'loading-bar': 'loading-bar 2s linear infinite',
+            },
           },
         },
       }
     </script>
     <style>
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: #f8fafc; }
+      .dark ::-webkit-scrollbar-track { background: #0f172a; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      .dark ::-webkit-scrollbar-thumb { background: #475569; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+      button, a, input, select, textarea, details {
+        transition: all 0.2s ease-in-out;
+      }
       body {
         transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fade-in {
-        animation: fadeIn 0.5s ease-out both;
-      }
-      @keyframes popIn {
-        0% {
-          opacity: 0;
-          transform: scale(0.95) translateY(10px);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-      .animate-pop-in {
-        animation: popIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-      }
-      @keyframes slide-fade-in {
-        from {
-          opacity: 0;
-          transform: translateY(20px) scale(0.98);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-      .animate-slide-fade-in {
-        animation: slide-fade-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-      }
-      .stagger-in > * {
-        animation: slide-fade-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
-      }
-      @keyframes shimmer {
-        100% { transform: translateX(100%); }
       }
       .shimmer::after {
         content: '';
@@ -111,7 +120,7 @@
         );
       }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0",
@@ -121,9 +130,16 @@
   }
 }
 </script>
-</head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-300 antialiased">
+    <script>
+      if (localStorage.theme === 'dark') {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark font-sans antialiased transition-colors duration-300">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
-</body>
+  </body>
 </html>
