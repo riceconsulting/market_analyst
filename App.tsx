@@ -254,16 +254,16 @@ const App: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans dark:bg-slate-900">
+    <div className="min-h-screen bg-background-light font-sans dark:bg-background-dark">
       <Header />
       <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pb-32 sm:pb-36">
         <div className="text-center mb-8 sm:mb-10 animate-slide-fade-in">
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-dark to-brand-light">AI Market Analyst</h1>
-            <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto dark:text-slate-400">Instant, data-driven insights to fuel your business growth in Indonesia.</p>
+            <p className="mt-3 text-base sm:text-lg text-text-secondary-light max-w-2xl mx-auto dark:text-text-secondary-dark">Instant, data-driven insights to fuel your business growth in Indonesia.</p>
         </div>
         
         <div className="flex justify-center mb-6 sm:mb-8 animate-slide-fade-in" style={{ animationDelay: '100ms' }}>
-          <div className="flex flex-wrap justify-center gap-1 sm:gap-2 bg-slate-100 p-2 sm:p-1 rounded-lg sm:rounded-full dark:bg-slate-800" role="tablist">
+          <div className="flex flex-wrap justify-center gap-1 sm:gap-2 bg-surface-light p-2 sm:p-1 rounded-lg sm:rounded-full dark:bg-surface-dark" role="tablist">
             {features.map((feature) => (
               <TabButton
                 key={feature.id}
