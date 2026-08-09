@@ -1,3 +1,6 @@
+const TRANSITION_DURATION = "0.5s";
+const ANIMATION_DURATION_NORMAL = "0.3s";
+
 const ANIMATION_DELAY = 100;
 
 
@@ -116,7 +119,7 @@ export const LifecycleGraph: React.FC<LifecycleGraphProps> = ({ activePhase }) =
                 <svg viewBox="0 0 300 70" className="w-full h-auto" style={{ overflow: 'visible' }}>
                     <g transform="translate(0, 10)">
                         <path d="M 10 50 Q 75 50, 100 30 T 190 20 Q 250 10, 290 10" className="stroke-slate-300 dark:stroke-slate-700" strokeWidth="2" fill="none" />
-                        <g style={{ transform: `translateX(calc(${activePhaseConfig.cxPercentage}%))`, transition: 'transform 0.5s ease-in-out' }}>
+                        <g style={{ transform: `translateX(calc(${activePhaseConfig.cxPercentage}%))`, transition: `transform ${TRANSITION_DURATION} ease-in-out` }}>
                             <circle cx="0" cy={phaseConfig[activePhase].pathY(50)} r="5" fill={activePhaseConfig.color} className="stroke-white dark:stroke-slate-800" strokeWidth="2">
                                 <animate attributeName="r" values="5;7;5" dur="1.5s" repeatCount="indefinite" />
                             </circle>

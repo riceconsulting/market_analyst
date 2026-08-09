@@ -1,3 +1,5 @@
+const ANIMATION_DURATION_NORMAL = "0.3s";
+
 import React, { useState } from 'react';
 import { HistoryItem } from '../types';
 import { useHistory } from '../hooks/useHistory';
@@ -60,7 +62,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onLoadFromHistory }) => {
                 <HistoryIcon className="w-7 h-7 sm:w-8 sm:h-8" />
             </button>
 
-            {isOpen && <div className="fixed inset-0 bg-black/30 z-40 animate-fade-in" style={{ animationDuration: '0.3s' }} onClick={() => setIsOpen(false)}></div>}
+            {isOpen && <div className="fixed inset-0 bg-black/30 z-40 animate-fade-in" style={{ animationDuration: ANIMATION_DURATION_NORMAL }} onClick={() => setIsOpen(false)}></div>}
 
             <div
                 className={`fixed top-0 right-0 h-full w-full max-w-sm bg-surface-light shadow-2xl z-50 transform transition-transform duration-300 dark:bg-surface-dark ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
