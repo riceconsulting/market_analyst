@@ -1,3 +1,5 @@
+const ANIMATION_DELAY = 100;
+
 
 
 
@@ -177,7 +179,7 @@ const formatCurrency = (value: number) => {
 export const PricingBenchmarkChart: React.FC<PricingBenchmarkChartProps> = ({ mainCompetitor, benchmarkData }) => {
     const [isAnimated, setIsAnimated] = useState(false);
     useEffect(() => {
-        const timer = setTimeout(() => setIsAnimated(true), 100);
+        const timer = setTimeout(() => setIsAnimated(true), ANIMATION_DELAY);
         return () => clearTimeout(timer);
     }, []);
     
@@ -252,7 +254,7 @@ export const SentimentChart: React.FC<SentimentChartProps> = ({ praiseCount, com
     const [isAnimated, setIsAnimated] = useState(false);
     
     useEffect(() => {
-        const timer = setTimeout(() => setIsAnimated(true), 100);
+        const timer = setTimeout(() => setIsAnimated(true), ANIMATION_DELAY);
         return () => clearTimeout(timer);
     }, []);
 

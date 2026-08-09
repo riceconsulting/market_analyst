@@ -383,7 +383,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                         <TrendChart
                                             data={sentimentTrendData}
                                             label="Customer Sentiment (% Positive)"
-                                            color="#5890AD"
+                                            color="var(--color-primary-light)"
                                             formatValue={(v) => `${v.toFixed(1)}%`}
                                         />
                                     )}
@@ -391,7 +391,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                          <TrendChart
                                             data={ratingTrendData}
                                             label="Star Rating"
-                                            color="#f59e0b"
+                                            color="var(--color-accent-light)"
                                             formatValue={(v) => `${v.toFixed(2)} ★`}
                                         />
                                     )}
