@@ -7,6 +7,7 @@ import { useHistory } from '../../hooks/useHistory';
 import ErrorMessage from '../ErrorMessage';
 import AnalysisCard from '../AnalysisCard';
 import PromptSuggestions from '../PromptSuggestions';
+import SampleOutput from "../SampleOutput";
 import { 
     SparkleIcon, 
     HashtagIcon, 
@@ -38,11 +39,11 @@ const COMPETITOR_SUGGESTIONS = [
 ];
 
 const SkeletonBar: React.FC<{ width?: string; height?: string; className?: string }> = ({ width = 'w-full', height = 'h-4', className = '' }) => (
-    <div className={`${width} ${height} bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded relative overflow-hidden shimmer ${className}`}></div>
+    <div className={`${width} ${height} bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded relative overflow-hidden shimmer ${className}`}></div>
 );
 
 const SkeletonCard: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className }) => (
-     <div className={`bg-white rounded-xl border border-border-light dark:border-border-dark shadow-sm p-5 sm:p-6 dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark ${className}`}>
+     <div className={`bg-white rounded-xl border border-border-light dark:border-border-dark shadow-sm p-5 sm:p-6 dark:bg-surface-dark dark:border-border-dark ${className}`}>
         <div className="space-y-4">
             {children}
         </div>
@@ -54,7 +55,7 @@ const CompetitorSkeleton: React.FC = () => {
         <div className="animate-fade-in space-y-6">
              <SkeletonCard>
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
+                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
                     <SkeletonBar width="w-1/3" />
                 </div>
                  <div className="h-24"> 
@@ -64,13 +65,13 @@ const CompetitorSkeleton: React.FC = () => {
             </SkeletonCard>
             <SkeletonCard>
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
+                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
                     <SkeletonBar width="w-1/3" />
                 </div>
                 <SkeletonBar width="w-1/4" height="h-5" />
                 <SkeletonBar />
                 <SkeletonBar width="w-5/6" />
-                <div className="pt-4 mt-4 border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
+                <div className="pt-4 mt-4 border-t border-border-light dark:border-border-dark dark:border-border-dark">
                     <SkeletonBar width="w-1/4" height="h-5" />
                     <SkeletonBar />
                     <SkeletonBar width="w-5/6" />
@@ -78,25 +79,25 @@ const CompetitorSkeleton: React.FC = () => {
             </SkeletonCard>
             <SkeletonCard>
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
+                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
                     <SkeletonBar width="w-1/3" />
                 </div>
                 <SkeletonBar width="w-3/4" height="h-6" className="mb-4" />
-                <div className="flex flex-wrap gap-2 pb-4 mb-4 border-b border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                    <div className="w-20 h-8 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark relative overflow-hidden shimmer"></div>
-                    <div className="w-20 h-8 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark relative overflow-hidden shimmer"></div>
-                    <div className="w-20 h-8 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark relative overflow-hidden shimmer"></div>
+                <div className="flex flex-wrap gap-2 pb-4 mb-4 border-b border-border-light dark:border-border-dark dark:border-border-dark">
+                    <div className="w-20 h-8 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-dark relative overflow-hidden shimmer"></div>
+                    <div className="w-20 h-8 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-dark relative overflow-hidden shimmer"></div>
+                    <div className="w-20 h-8 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-dark relative overflow-hidden shimmer"></div>
                 </div>
                 <SkeletonBar />
                 <SkeletonBar width="w-5/6" />
             </SkeletonCard>
             <SkeletonCard>
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
+                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
                     <SkeletonBar width="w-1/3" />
                 </div>
-                <div className="flex items-center gap-2 pb-4 mb-4 border-b border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                    <div className="w-6 h-6 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark relative overflow-hidden shimmer"></div>
+                <div className="flex items-center gap-2 pb-4 mb-4 border-b border-border-light dark:border-border-dark dark:border-border-dark">
+                    <div className="w-6 h-6 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-dark relative overflow-hidden shimmer"></div>
                     <SkeletonBar width="w-1/2" height="h-6" />
                 </div>
                 <div className="space-y-3">
@@ -107,7 +108,7 @@ const CompetitorSkeleton: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <SkeletonCard className="lg:col-span-3">
                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
+                        <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
                         <SkeletonBar width="w-1/2" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -131,14 +132,14 @@ const CompetitorSkeleton: React.FC = () => {
                 </SkeletonCard>
                 <SkeletonCard className="lg:col-span-2">
                     <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-28 h-28 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark relative overflow-hidden shimmer"></div>
+                        <div className="w-28 h-28 rounded-full bg-surface-light dark:bg-surface-dark dark:bg-surface-dark relative overflow-hidden shimmer"></div>
                         <SkeletonBar width="w-3/4" height="h-5" className="mt-4" />
                     </div>
                 </SkeletonCard>
             </div>
              <SkeletonCard>
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
+                    <div className="w-8 h-8 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-md relative overflow-hidden shimmer"></div>
                     <SkeletonBar width="w-1/3" />
                 </div>
                 <SkeletonBar height="h-6" />
@@ -191,12 +192,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-md m-4 bg-white rounded-xl shadow-xl animate-pop-in dark:bg-surface-light dark:bg-surface-dark"
+        className="relative w-full max-w-md m-4 bg-white rounded-xl shadow-xl animate-pop-in dark:bg-surface-dark"
         style={{ animationDuration: '0.3s' }}
         onClick={(e) => e.stopPropagation()}
         tabIndex={-1}
       >
-        <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-border-light dark:border-border-dark">
+        <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-border-dark">
           <h3 id="modal-title" className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-white">
             {title}
           </h3>
@@ -210,7 +211,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
           </button>
         </div>
         <div className="p-6">
-          <p className="text-base leading-relaxed text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+          <p className="text-base leading-relaxed text-text-primary-light dark:text-text-primary-dark">
             {children}
           </p>
         </div>
@@ -332,9 +333,9 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
 
     return (
         <div className="w-full">
-            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark">
-                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-1">Riset Kompetitor & Pembedahan Produk</h2>
-                <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-4">Masukkan URL atau nama toko kompetitor. Anda juga bisa menambahkan kata kunci untuk memfokuskan analisis.</p>
+            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-dark dark:border-border-dark">
+                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-1">Riset Kompetitor & Pembedahan Produk</h2>
+                <p className="text-text-primary-light dark:text-text-primary-dark mb-4">Masukkan URL atau nama toko kompetitor. Anda juga bisa menambahkan kata kunci untuk memfokuskan analisis.</p>
                 <form onSubmit={handleFormSubmit}>
                     <div className="flex flex-col gap-3">
                         <input
@@ -342,7 +343,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             value={identifier}
                             onChange={(e) => setIdentifier(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
+                            className="w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <input
@@ -350,7 +351,7 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             value={focusKeywords}
                             onChange={(e) => setFocusKeywords(e.target.value)}
                             placeholder="Fokus analisis (opsional), mis: 'keberlanjutan', 'layanan pelanggan'"
-                            className="w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
+                            className="w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
@@ -367,6 +368,27 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                         suggestions={COMPETITOR_SUGGESTIONS.map(s => s.display)} 
                         onSelectSuggestion={handleSelectSuggestion}
                     />
+                )}
+                {!identifier.trim() && !isLoading && !result && (
+                    <SampleOutput
+                        title="Sample Output: Analisis Toko Kue Nusantara"
+                        description="Analisis lengkap untuk toko kue tradisional di Surabaya"
+                    >
+                        <div className="space-y-4">
+                            <div className="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                                <h4 className="font-semibold text-accent-light dark:text-accent-dark mb-2">Pembedahan Deskripsi Produk</h4>
+                                <p className="text-sm text-text-primary-light dark:text-text-primary-dark">Deskripsi produk menekankan penggunaan bahan alami dan resep turun-temurun. Kata kunci: "tradisional", "homemade", "resep nenek".</p>
+                            </div>
+                            <div className="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                                <h4 className="font-semibold text-accent-light dark:text-accent-dark mb-2">Analisis Strategi Harga</h4>
+                                <p className="text-sm text-text-primary-light dark:text-text-primary-dark">Harga kompetitif di segmen menengah. Rentang harga Rp 25.000 - Rp 85.000 per item.</p>
+                            </div>
+                            <div className="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                                <h4 className="font-semibold text-accent-light dark:text-accent-dark mb-2">Analisis Visual Branding</h4>
+                                <p className="text-sm text-text-primary-light dark:text-text-primary-dark">Palette warna hangat (coklat, krem, emas) yang mengkomunikasikan kehangatan dan keaslian.</p>
+                            </div>
+                        </div>
+                    </SampleOutput>
                 )}
             </div>
 
@@ -409,11 +431,11 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                         <AnalysisCard title="Pembedahan Deskripsi Produk" icon={<DocumentTextIcon className="w-5 h-5"/>} animationDelay="100ms">
                             <div className="space-y-4">
                                 <div>
-                                   <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Kekuatan SEO</h4>
+                                   <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Kekuatan SEO</h4>
                                    <p>{result.productDescriptionAnalysis.seoStrength}</p>
                                 </div>
-                                <div className="border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark pt-4">
-                                   <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Daya Tarik Emosional</h4>
+                                <div className="border-t border-border-light dark:border-border-dark dark:border-border-dark pt-4">
+                                   <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Daya Tarik Emosional</h4>
                                    <p>{result.productDescriptionAnalysis.emotionalAppeal}</p>
                                 </div>
                             </div>
@@ -423,11 +445,11 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             <AnalysisCard title="Analisis Strategi Harga" icon={<PriceTagIcon className="w-5 h-5"/>} animationDelay="200ms">
                                 <div className="space-y-4">
                                     <div>
-                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Posisi Harga</h4>
+                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Posisi Harga</h4>
                                         <p>{result.pricingStrategy.pricePointAnalysis}</p>
                                     </div>
-                                    <div className="border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark pt-4">
-                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Proposisi Nilai</h4>
+                                    <div className="border-t border-border-light dark:border-border-dark dark:border-border-dark pt-4">
+                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Proposisi Nilai</h4>
                                         <p>{result.pricingStrategy.valueProposition}</p>
                                     </div>
                                 </div>
@@ -438,24 +460,24 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             <AnalysisCard title="Analisis Visual Branding" icon={<PaletteIcon className="w-5 h-5"/>} animationDelay="300ms">
                                 <div className="space-y-4">
                                     <div>
-                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Identitas Brand</h4>
+                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Identitas Brand</h4>
                                         <p className="text-xl font-semibold tracking-tight">{result.visualBrandingAnalysis.brandIdentity}</p>
                                     </div>
                                     {result.visualBrandingAnalysis.colorPalette && result.visualBrandingAnalysis.colorPalette.length > 0 && (
-                                        <div className="border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark pt-4">
-                                            <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-2">Palet Warna Kunci</h4>
+                                        <div className="border-t border-border-light dark:border-border-dark dark:border-border-dark pt-4">
+                                            <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">Palet Warna Kunci</h4>
                                             <div className="flex flex-wrap gap-2">
                                                 {result.visualBrandingAnalysis.colorPalette.map((color, i) => (
-                                                    <div key={i} className="flex items-center gap-2 p-1 pr-3 bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark rounded-full">
-                                                        <div className="w-6 h-6 rounded-full border border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark" style={{ backgroundColor: color }} title={color}></div>
-                                                        <span className="text-xs font-mono text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{color}</span>
+                                                    <div key={i} className="flex items-center gap-2 p-1 pr-3 bg-surface-light dark:bg-surface-dark dark:bg-surface-dark rounded-full">
+                                                        <div className="w-6 h-6 rounded-full border border-border-light dark:border-border-dark dark:border-border-dark" style={{ backgroundColor: color }} title={color}></div>
+                                                        <span className="text-xs font-mono text-text-primary-light dark:text-text-primary-dark">{color}</span>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                     )}
-                                    <div className="border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark pt-4">
-                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Kesesuaian Visual dengan Target Pasar</h4>
+                                    <div className="border-t border-border-light dark:border-border-dark dark:border-border-dark pt-4">
+                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Kesesuaian Visual dengan Target Pasar</h4>
                                         <p>{result.visualBrandingAnalysis.visualAlignment}</p>
                                     </div>
                                 </div>
@@ -470,9 +492,9 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                 />
                                 <div className="mt-6 space-y-4">
                                     {result.pricingBenchmark.map((competitor, i) => (
-                                        <div key={i} className="border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark pt-4">
-                                            <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{competitor.name}</h4>
-                                            <p className="text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-1">{competitor.pricePointAnalysis}</p>
+                                        <div key={i} className="border-t border-border-light dark:border-border-dark dark:border-border-dark pt-4">
+                                            <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">{competitor.name}</h4>
+                                            <p className="text-sm text-text-primary-light dark:text-text-primary-dark mb-1">{competitor.pricePointAnalysis}</p>
                                             <p>{competitor.valueProposition}</p>
                                         </div>
                                     ))}
@@ -481,16 +503,16 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                         )}
 
                         {result.socialProof && (result.socialProof.starRating || result.socialProof.testimonials?.length > 0) && (
-                            <AnalysisCard title="Bukti Sosial (Social Proof)" icon={<StarIcon className="w-5 h-5 text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark" />} animationDelay="500ms">
+                            <AnalysisCard title="Bukti Sosial (Social Proof)" icon={<StarIcon className="w-5 h-5 text-text-primary-light dark:text-text-primary-dark" />} animationDelay="500ms">
                                 {result.socialProof.starRating && (
-                                    <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
+                                    <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border-light dark:border-border-dark dark:border-border-dark">
                                         <StarIcon className="w-6 h-6 text-amber-400" />
-                                        <p className="font-bold text-lg text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{result.socialProof.starRating}</p>
+                                        <p className="font-bold text-lg text-text-primary-light dark:text-text-primary-dark">{result.socialProof.starRating}</p>
                                     </div>
                                 )}
                                 {result.socialProof.testimonials?.length > 0 && (
                                      <div className="space-y-4">
-                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Testimoni Kunci</h4>
+                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Testimoni Kunci</h4>
                                         {result.socialProof.testimonials.map((testimonial, i) => (
                                             <blockquote key={i} className="border-l-4 border-brand-light pl-4 italic text-text-primary-light dark:text-text-primary-dark dark:border-brand dark:text-text-primary-light dark:text-text-primary-dark">
                                                 "{testimonial}"
@@ -499,9 +521,9 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                      </div>
                                 )}
                                 {result.socialProof.userGeneratedContentExamples && (
-                                     <div className="mt-4 pt-4 border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Contoh Konten Buatan Pengguna (UGC)</h4>
-                                         <ul className="list-disc list-inside mt-2 space-y-1 text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                     <div className="mt-4 pt-4 border-t border-border-light dark:border-border-dark dark:border-border-dark">
+                                        <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark">Contoh Konten Buatan Pengguna (UGC)</h4>
+                                         <ul className="list-disc list-inside mt-2 space-y-1 text-text-primary-light dark:text-text-primary-dark">
                                             {Array.isArray(result.socialProof.userGeneratedContentExamples)
                                                 ? result.socialProof.userGeneratedContentExamples.map((ugc, i) => (
                                                     <li key={i}>{ugc}</li>
@@ -538,8 +560,8 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                 </AnalysisCard>
                             </div>
                              <div className="lg:col-span-2">
-                                <div className="bg-white rounded-xl border border-border-light dark:border-border-dark/80 shadow-lg p-5 sm:p-6 flex flex-col items-center justify-center h-full animate-slide-fade-in dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark/80" style={{ animationDelay: '800ms' }}>
-                                    <h3 className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-4 tracking-tight text-center">Rangkuman Sentimen</h3>
+                                <div className="bg-white rounded-xl border border-border-light dark:border-border-dark/80 shadow-lg p-5 sm:p-6 flex flex-col items-center justify-center h-full animate-slide-fade-in dark:bg-surface-dark dark:border-border-dark/80" style={{ animationDelay: '800ms' }}>
+                                    <h3 className="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-4 tracking-tight text-center">Rangkuman Sentimen</h3>
                                     <SentimentChart 
                                         praiseCount={result.customerSentiment.topPraise.length} 
                                         complaintCount={result.customerSentiment.topComplaints.length}
@@ -552,12 +574,12 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                             <AnalysisCard title="Analisis SWOT" icon={<SparkleIcon className="w-5 h-5"/>} animationDelay="900ms">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {/* Strengths */}
-                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-3">
+                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-dark">
+                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark mb-3">
                                             <ShieldCheckIcon className="w-5 h-5 mr-2 text-success-light dark:text-success-dark" />
                                             Kekuatan (Strengths)
                                         </h4>
-                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark">
                                             {result.swotAnalysis.strengths.map((item, i) => (
                                                 <li key={`s-${i}`} className="flex items-start">
                                                     <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-success-light dark:text-success-dark" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
@@ -567,12 +589,12 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                         </ul>
                                     </div>
                                     {/* Weaknesses */}
-                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-3">
+                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-dark">
+                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark mb-3">
                                             <WeaknessIcon className="w-5 h-5 mr-2 text-error-light dark:text-error-dark" />
                                             Kelemahan (Weaknesses)
                                         </h4>
-                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark">
                                             {result.swotAnalysis.weaknesses.map((item, i) => (
                                                 <li key={`w-${i}`} className="flex items-start">
                                                     <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-error-light dark:text-error-dark" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
@@ -582,12 +604,12 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                         </ul>
                                     </div>
                                     {/* Opportunities */}
-                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-3">
+                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-dark">
+                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark mb-3">
                                             <OpportunityIcon className="w-5 h-5 mr-2 text-brand" />
                                             Peluang (Opportunities)
                                         </h4>
-                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark">
                                             {result.swotAnalysis.opportunities.map((item, i) => (
                                                 <li key={`o-${i}`} className="flex items-start">
                                                     <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-brand" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd"></path></svg>
@@ -597,12 +619,12 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                                         </ul>
                                     </div>
                                     {/* Threats */}
-                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
-                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-3">
+                                    <div className="bg-surface-light dark:bg-surface-dark dark:bg-surface-dark/50 p-4 rounded-lg border border-border-light dark:border-border-dark dark:border-border-dark">
+                                        <h4 className="flex items-center font-semibold text-base text-text-primary-light dark:text-text-primary-dark mb-3">
                                             <ThreatIcon className="w-5 h-5 mr-2 text-amber-500" />
                                             Ancaman (Threats)
                                         </h4>
-                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                        <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark">
                                             {result.swotAnalysis.threats.map((item, i) => (
                                                 <li key={`t-${i}`} className="flex items-start">
                                                     <svg className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.03-1.742 3.03H4.42c-1.532 0-2.492-1.696-1.742-3.03l5.58-9.92zM10 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd"></path></svg>
@@ -621,8 +643,8 @@ const CompetitorAnalysis: React.FC<CompetitorAnalysisProps> = ({
                         
                         {sources.length > 0 && (
                             <div className="mt-6 text-sm animate-slide-fade-in" style={{ animationDelay: '1100ms' }}>
-                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-2">Sumber Informasi:</h4>
-                                <ul className="space-y-1 list-disc list-inside text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">Sumber Informasi:</h4>
+                                <ul className="space-y-1 list-disc list-inside text-text-primary-light dark:text-text-primary-dark">
                                     {sources.map((source, index) => (
                                         <li key={index}>
                                             <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-brand hover:text-brand-dark dark:text-brand-light dark:hover:text-brand">

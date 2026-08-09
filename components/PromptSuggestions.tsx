@@ -13,7 +13,7 @@ const PromptSuggestions: React.FC<PromptSuggestionsProps> = ({
 }) => {
   return (
     <div className="mt-6 animate-fade-in">
-      <p className="text-sm font-medium text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-3">{title}</p>
+      <p className="text-sm font-medium text-text-primary-light dark:text-text-primary-dark mb-3">{title}</p>
       <div className="flex flex-wrap gap-2">
         {suggestions.slice(0, 5).map((suggestion, index) => (
           <button

@@ -15,7 +15,7 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({ title, icon, children, clas
             style={{ animationDelay, animationFillMode: 'backwards' }}
         >
             <div className="p-4 sm:p-5 bg-surface-light dark:bg-surface-dark/50 dark:bg-surface-light dark:bg-surface-dark/20 border-b border-border-light dark:border-border-dark/80 dark:border-border-light dark:border-border-dark/80">
-                <div className="flex items-center text-lg font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                <div className="flex items-center text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">
                     <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand-light mr-3 flex-shrink-0">
                         {icon}
                     </span>
@@ -23,7 +23,7 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({ title, icon, children, clas
                 </div>
             </div>
             <div className="p-5 sm:p-6">
-                <div className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark space-y-4">
+                <div className="text-text-primary-light dark:text-text-primary-dark space-y-4">
                     {children}
                 </div>
             </div>

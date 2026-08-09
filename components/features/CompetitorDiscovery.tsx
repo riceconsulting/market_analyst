@@ -8,6 +8,7 @@ import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
 import AnalysisCard from '../AnalysisCard';
 import PromptSuggestions from '../PromptSuggestions';
+import SampleOutput from '../SampleOutput';
 import { SparkleIcon, SwordIcon, HandshakeIcon } from '../Icons';
 
 const DISCOVERY_SUGGESTIONS = [
@@ -32,11 +33,11 @@ interface CompetitorDiscoveryProps {
 }
 
 const CompetitorCard: React.FC<{ competitor: Competitor }> = ({ competitor }) => (
-    <div className="p-4 border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark dark:bg-surface-light dark:bg-surface-dark/50 dark:border-border-light dark:border-border-dark">
+    <div className="p-4 border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark dark:bg-surface-dark/50 dark:border-border-dark">
         <div>
-            <h4 className="font-bold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{competitor.name}</h4>
-            <p className="text-xs text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-2">{competitor.type}</p>
-            <p className="text-sm text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">{competitor.reason}</p>
+            <h4 className="font-bold text-text-primary-light dark:text-text-primary-dark">{competitor.name}</h4>
+            <p className="text-xs text-text-primary-light dark:text-text-primary-dark mb-2">{competitor.type}</p>
+            <p className="text-sm text-text-primary-light dark:text-text-primary-dark">{competitor.reason}</p>
         </div>
     </div>
 );
@@ -67,9 +68,9 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
 
     return (
         <div className="w-full">
-            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark">
-                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-1">Temukan Peta Persaingan Anda</h2>
-                <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-4">Masukkan produk, brand, atau layanan Anda untuk menemukan siapa saja kompetitor Anda di pasar.</p>
+            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-dark dark:border-border-dark">
+                <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-1">Temukan Peta Persaingan Anda</h2>
+                <p className="text-text-primary-light dark:text-text-primary-dark mb-4">Masukkan produk, brand, atau layanan Anda untuk menemukan siapa saja kompetitor Anda di pasar.</p>
                 <form onSubmit={handleFormSubmit}>
                     <div className="flex flex-col md:flex-row gap-2">
                         <input
@@ -77,7 +78,7 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full min-w-0 px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-light dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
+                            className="flex-grow w-full min-w-0 px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
@@ -95,6 +96,29 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                         onSelectSuggestion={handleSelectSuggestion}
                     />
                 )}
+                {!query.trim() && !isLoading && !result && (
+                    <SampleOutput
+                        title="Sample Output: Brand Modest Fashion B2C"
+                        description="Peta persaingan untuk brand fashion muslim modern"
+                    >
+                        <div className="space-y-4">
+                            <div className="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                                <h4 className="font-semibold text-accent-light dark:text-accent-dark mb-2">Kompetitor Langsung</h4>
+                                <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark">
+                                    <li>• <strong>Hijabook</strong> - Brand fashion muslim premium dengan fokus pada material berkualitas tinggi</li>
+                                    <li>• <strong>By.anne</strong> - Brand modest fashion dengan gaya minimalis modern</li>
+                                </ul>
+                            </div>
+                            <div className="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                                <h4 className="font-semibold text-accent-light dark:text-accent-dark mb-2">Kompetitor Tidak Langsung</h4>
+                                <ul className="space-y-2 text-sm text-text-primary-light dark:text-text-primary-dark">
+                                    <li>• <strong>Zalora</strong> - Marketplace fashion online dengan segmen muslim fashion</li>
+                                    <li>• <strong>Shopee</strong> - Platform e-commerce dengan ribuan seller fashion muslim</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </SampleOutput>
+                )}
             </div>
 
             <div className="mt-8">
@@ -107,7 +131,7 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                                 {result.directCompetitors.length > 0 ? (
                                     result.directCompetitors.map(comp => <CompetitorCard key={comp.name} competitor={comp} />)
                                 ) : (
-                                    <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Tidak ada kompetitor langsung yang ditemukan.</p>
+                                    <p className="text-text-primary-light dark:text-text-primary-dark">Tidak ada kompetitor langsung yang ditemukan.</p>
                                 )}
                             </div>
                         </AnalysisCard>
@@ -116,15 +140,15 @@ const CompetitorDiscovery: React.FC<CompetitorDiscoveryProps> = ({
                                 {result.indirectCompetitors.length > 0 ? (
                                     result.indirectCompetitors.map(comp => <CompetitorCard key={comp.name} competitor={comp} />)
                                 ) : (
-                                     <p className="text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">Tidak ada kompetitor tidak langsung yang ditemukan.</p>
+                                     <p className="text-text-primary-light dark:text-text-primary-dark">Tidak ada kompetitor tidak langsung yang ditemukan.</p>
                                 )}
                             </div>
                         </AnalysisCard>
                         
                         {sources.length > 0 && (
                             <div className="lg:col-span-2 mt-2 text-sm animate-slide-fade-in" style={{ animationDelay: '200ms' }}>
-                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark mb-2">Sumber Informasi:</h4>
-                                <ul className="space-y-1 list-disc list-inside text-text-primary-light dark:text-text-primary-dark dark:text-text-primary-light dark:text-text-primary-dark">
+                                <h4 className="font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">Sumber Informasi:</h4>
+                                <ul className="space-y-1 list-disc list-inside text-text-primary-light dark:text-text-primary-dark">
                                     {sources.map((source, index) => (
                                         <li key={index}>
                                             <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-brand hover:text-brand-dark hover:underline dark:text-brand-light dark:hover:text-brand">
