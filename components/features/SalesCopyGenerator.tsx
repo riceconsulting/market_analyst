@@ -82,7 +82,7 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
 
     return (
         <div className="w-full">
-            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-dark dark:border-border-light dark:border-border-dark">
+            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-dark dark:border-border-dark">
                 <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-1">Generator Klausa & Copy Penjualan</h2>
                 <p className="text-text-primary-light dark:text-text-primary-dark mb-4">Ajukan pertanyaan bisnis untuk mendapatkan analisis risiko dan draft copy yang aman dan efektif.</p>
                 <form onSubmit={handleFormSubmit}>
@@ -91,7 +91,7 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
+                            className="flex-grow w-full px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent h-24 placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-dark dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
@@ -142,18 +142,18 @@ const SalesCopyGenerator: React.FC<SalesCopyGeneratorProps> = ({
                            <RiskGauge level={riskLevel} />
                         </AnalysisCard>
                         <AnalysisCard title="Copy & Paste Ready" icon={<ShieldCheckIcon className="w-5 h-5" />} animationDelay="100ms">
-                            <div className="relative p-4 border border-border-light dark:border-border-dark rounded-md bg-surface-light dark:bg-surface-dark font-mono text-sm dark:border-border-light dark:border-border-dark dark:bg-surface-dark/30">
+                            <div className="relative p-4 border border-border-light dark:border-border-dark rounded-md bg-surface-light dark:bg-surface-dark font-mono text-sm dark:border-border-dark dark:bg-surface-dark/30">
                                 <button
                                     onClick={handleCopy}
-                                    className="absolute top-2 right-2 p-2 text-text-primary-light dark:text-text-primary-dark bg-white rounded-md hover:bg-surface-light dark:bg-surface-dark hover:text-text-primary-light dark:text-text-primary-dark focus:outline-none focus:ring-2 focus:ring-brand dark:bg-surface-dark dark:text-text-primary-light dark:text-text-primary-dark dark:hover:bg-surface-dark dark:hover:text-text-primary-dark"
+                                    className="absolute top-2 right-2 p-2 text-text-primary-light dark:text-text-primary-dark bg-white rounded-md hover:bg-surface-light dark:bg-surface-dark hover:text-text-primary-light dark:text-text-primary-dark focus:outline-none focus:ring-2 focus:ring-brand dark:bg-surface-dark dark:text-text-primary-dark dark:hover:bg-surface-dark dark:hover:text-text-primary-dark"
                                     aria-label="Copy to clipboard"
                                 >
                                     <CopyIcon className="w-5 h-5" />
                                 </button>
-                                {isCopied && <span className="absolute top-2 right-12 bg-surface-light dark:bg-surface-dark text-white text-xs px-2 py-1 rounded dark:bg-surface-dark dark:text-text-primary-light dark:text-text-primary-dark">Copied!</span>}
+                                {isCopied && <span className="absolute top-2 right-12 bg-surface-light dark:bg-surface-dark text-white text-xs px-2 py-1 rounded dark:bg-surface-dark dark:text-text-primary-dark">Copied!</span>}
 
                                 <h4 className="font-sans font-bold text-text-primary-light dark:text-text-primary-dark text-lg mb-2">{result.riskMitigationCopy.title}</h4>
-                                <p className="whitespace-pre-wrap font-sans dark:text-text-primary-light dark:text-text-primary-dark">{result.riskMitigationCopy.body}</p>
+                                <p className="whitespace-pre-wrap font-sans dark:text-text-primary-dark">{result.riskMitigationCopy.body}</p>
                             </div>
                         </AnalysisCard>
                     </div>

@@ -29,7 +29,7 @@ const SkeletonBar: React.FC<{ width?: string; height?: string; className?: strin
 );
 
 const SkeletonCard: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className }) => (
-     <div className={`bg-white rounded-xl border border-border-light dark:border-border-dark shadow-sm p-5 sm:p-6 dark:bg-surface-dark dark:border-border-light dark:border-border-dark ${className}`}>
+     <div className={`bg-white rounded-xl border border-border-light dark:border-border-dark shadow-sm p-5 sm:p-6 dark:bg-surface-dark dark:border-border-dark ${className}`}>
         <div className="space-y-4">
             {children}
         </div>
@@ -158,7 +158,7 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
 
     return (
         <div className="w-full">
-            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-dark dark:border-border-light dark:border-border-dark">
+            <div className="bg-white p-6 rounded-xl border border-border-light dark:border-border-dark shadow-lg dark:bg-surface-dark dark:border-border-dark">
                 <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-1">Analisis Tren Niche & Vibe Pasar</h2>
                 <p className="text-text-primary-light dark:text-text-primary-dark mb-4">Identifikasi peluang pasar dan gaya visual yang sedang tren dengan 1-2 kata kunci.</p>
                 <form onSubmit={handleFormSubmit}>
@@ -168,7 +168,7 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                             value={keywords}
                             onChange={(e) => setKeywords(e.target.value)}
                             placeholder={`Contoh: ${placeholder}`}
-                            className="flex-grow w-full min-w-0 px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-light dark:border-border-dark dark:text-text-primary-light dark:text-text-primary-dark dark:placeholder-slate-500"
+                            className="flex-grow w-full min-w-0 px-4 py-3 text-text-primary-light dark:text-text-primary-dark bg-white border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent placeholder-gray-400 text-base dark:bg-surface-dark dark:border-border-dark dark:text-text-primary-dark dark:placeholder-slate-500"
                             disabled={isLoading}
                         />
                         <button
@@ -253,7 +253,7 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                                    <p className="text-sm font-medium text-text-primary-light dark:text-text-primary-dark mb-2">Palette Warna Kunci:</p>
                                    <div className="flex space-x-2">
                                        {vibeColors.map((color, i) => (
-                                           <div key={i} className="w-10 h-10 rounded-full border border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark" style={{ backgroundColor: color }} title={color}></div>
+                                           <div key={i} className="w-10 h-10 rounded-full border border-border-light dark:border-border-dark dark:border-border-dark" style={{ backgroundColor: color }} title={color}></div>
                                        ))}
                                    </div>
                                </div>
@@ -269,11 +269,11 @@ const NicheTrendAnalysis: React.FC<NicheTrendAnalysisProps> = ({
                             <LifecycleGraph activePhase={result.trendLifecycle.phase} />
                             <p className="mt-4 text-base">{result.trendLifecycle.recommendation}</p>
                              {result.trendLifecycle.confidence && result.trendLifecycle.confidenceReason && (
-                                <div className="mt-4 pt-4 border-t border-border-light dark:border-border-dark dark:border-border-light dark:border-border-dark">
+                                <div className="mt-4 pt-4 border-t border-border-light dark:border-border-dark dark:border-border-dark">
                                     <div className="flex items-center gap-2 mb-2">
                                         <BrainCircuitIcon className="w-5 h-5 text-brand dark:text-brand-light" />
                                         <p className="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">Keyakinan Analisis AI:</p>
-                                        <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full ${confidenceColors[result.trendLifecycle.confidence] ?? 'bg-surface-light dark:bg-surface-dark text-text-primary-light dark:text-text-primary-dark dark:bg-surface-dark dark:text-text-primary-light dark:text-text-primary-dark'}`}>
+                                        <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full ${confidenceColors[result.trendLifecycle.confidence] ?? 'bg-surface-light dark:bg-surface-dark text-text-primary-light dark:text-text-primary-dark dark:bg-surface-dark dark:text-text-primary-dark'}`}>
                                             {result.trendLifecycle.confidence}
                                         </span>
                                     </div>
